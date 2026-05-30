@@ -1,0 +1,356 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  TRAVELER
+  BOOKING_AGENT
+  VISA_REVIEWER
+  FINANCE_VIEWER
+  SUPER_ADMIN
+}
+
+enum Locale {
+  AR
+  EN
+}
+
+enum CabinClass {
+  ECONOMY
+  BUSINESS
+  FIRST
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  REFUNDED
+}
+
+enum PassengerType {
+  ADULT
+  CHILD
+  INFANT
+}
+
+enum VisaStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SUBMITTED_TO_MAQAM
+  MAQAM_ACCEPTED
+  MAQAM_REJECTED
+}
+
+enum DocumentType {
+  PASSPORT_SCAN
+  PERSONAL_PHOTO
+}
+
+enum ValidationStatus {
+  PENDING
+  VALID
+  INVALID
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  MADA
+  APPLE_PAY
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum BookingType {
+  FLIGHT
+  HOTEL
+}
+
+enum RefundStatus {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+enum NotificationType {
+  VISA_STATUS
+  BOOKING_CONFIRMED
+  BOOKING_CANCELLED
+  PAYMENT_RECEIVED
+  SYSTEM
+}
+
+model User {
+  id              String            @id @default(uuid()) @db.Uuid
+  email           String            @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  phone           String?
+  nationality     String?
+  passportNumber  String?
+  role            UserRole          @default(TRAVELER)
+  locale          Locale            @default(AR)
+  isActive        Boolean           @default(true)
+  refreshToken    String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  flightBookings  FlightBooking[]
+  hotelBookings   HotelBooking[]
+  visaApplications VisaApplication[] @relation("Applicant")
+  reviewedVisas   VisaApplication[] @relation("Reviewer")
+  notifications   Notification[]
+  reviews         Review[]
+
+  @@index([role])
+}
+
+model FlightBooking {
+  id                 String         @id @default(uuid()) @db.Uuid
+  reference          String         @unique
+  userId             String         @db.Uuid
+  user               User           @relation(fields: [userId], references: [id])
+  origin             String
+  destination        String
+  departureDate      DateTime
+  returnDate         DateTime?
+  airline            String
+  cabinClass         CabinClass
+  totalAmount        Decimal        @db.Decimal(10, 2)
+  currency           String         @default("SAR")
+  status             BookingStatus  @default(PENDING)
+  eTicketRef         String?
+  providerRef        String?
+  paymentId          String?        @db.Uuid
+  cancelledAt        DateTime?
+  cancellationReason String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  passengers         Passenger[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([departureDate])
+}
+
+model Passenger {
+  id              String         @id @default(uuid()) @db.Uuid
+  flightBookingId String         @db.Uuid
+  flightBooking   FlightBooking  @relation(fields: [flightBookingId], references: [id])
+  firstName       String
+  lastName        String
+  passportNumber  String
+  nationality     String
+  dateOfBirth     DateTime
+  type            PassengerType
+  createdAt       DateTime       @default(now())
+
+  @@index([flightBookingId])
+}
+
+model Hotel {
+  id              String         @id @default(uuid()) @db.Uuid
+  name            String
+  nameAr          String?
+  city            String
+  country         String         @default("SA")
+  address         String
+  starRating      Int
+  description     String?
+  descriptionAr   String?
+  amenities       String[]
+  photos          String[]
+  averageRating   Decimal?       @db.Decimal(3, 2)
+  reviewCount     Int            @default(0)
+  isActive        Boolean        @default(true)
+  providerRef     String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  rooms           Room[]
+  bookings        HotelBooking[]
+  reviews         Review[]
+
+  @@index([city])
+  @@index([starRating])
+  @@index([isActive])
+}
+
+model Room {
+  id              String         @id @default(uuid()) @db.Uuid
+  hotelId         String         @db.Uuid
+  hotel           Hotel          @relation(fields: [hotelId], references: [id])
+  type            String
+  typeAr          String?
+  capacity        Int
+  pricePerNight   Decimal        @db.Decimal(10, 2)
+  currency        String         @default("SAR")
+  totalInventory  Int
+  description     String?
+  photos          String[]
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  bookings        HotelBooking[]
+
+  @@index([hotelId])
+  @@index([pricePerNight])
+}
+
+model HotelBooking {
+  id                 String         @id @default(uuid()) @db.Uuid
+  reference          String         @unique
+  userId             String         @db.Uuid
+  user               User           @relation(fields: [userId], references: [id])
+  hotelId            String         @db.Uuid
+  hotel              Hotel          @relation(fields: [hotelId], references: [id])
+  roomId             String         @db.Uuid
+  room               Room           @relation(fields: [roomId], references: [id])
+  checkIn            DateTime
+  checkOut           DateTime
+  guestCount         Int
+  nights             Int
+  totalAmount        Decimal        @db.Decimal(10, 2)
+  currency           String         @default("SAR")
+  status             BookingStatus  @default(PENDING)
+  paymentId          String?        @db.Uuid
+  cancelledAt        DateTime?
+  cancellationReason String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([hotelId])
+  @@index([status])
+  @@index([checkIn])
+}
+
+model Review {
+  id              String         @id @default(uuid()) @db.Uuid
+  hotelId         String         @db.Uuid
+  hotel           Hotel          @relation(fields: [hotelId], references: [id])
+  userId          String         @db.Uuid
+  user            User           @relation(fields: [userId], references: [id])
+  rating          Int
+  title           String?
+  body            String?
+  createdAt       DateTime       @default(now())
+
+  @@index([hotelId])
+  @@index([userId])
+  @@index([rating])
+}
+
+model VisaApplication {
+  id               String         @id @default(uuid()) @db.Uuid
+  reference        String         @unique
+  userId           String         @db.Uuid
+  user             User           @relation("Applicant", fields: [userId], references: [id])
+  fullName         String
+  passportNumber   String
+  nationality      String
+  dateOfBirth      DateTime
+  status           VisaStatus     @default(PENDING)
+  reviewerId       String?        @db.Uuid
+  reviewer         User?          @relation("Reviewer", fields: [reviewerId], references: [id])
+  reviewerNotes    String?
+  rejectionReason  String?
+  maqamReference   String?
+  maqamSubmittedAt DateTime?
+  maqamResponseAt  DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  documents        Document[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([reviewerId])
+}
+
+model Document {
+  id                String           @id @default(uuid()) @db.Uuid
+  visaApplicationId String           @db.Uuid
+  visaApplication   VisaApplication  @relation(fields: [visaApplicationId], references: [id])
+  type              DocumentType
+  fileName          String
+  mimeType          String
+  sizeBytes         Int
+  storageKey        String
+  validationStatus  ValidationStatus @default(PENDING)
+  validationMessage String?
+  createdAt         DateTime         @default(now())
+
+  @@index([visaApplicationId])
+  @@index([type])
+}
+
+model Payment {
+  id               String          @id @default(uuid()) @db.Uuid
+  reference        String          @unique
+  amount           Decimal         @db.Decimal(10, 2)
+  currency         String          @default("SAR")
+  method           PaymentMethod
+  status           PaymentStatus   @default(PENDING)
+  gatewayRef       String?
+  gatewayResponse  Json?
+  bookingType      BookingType
+  bookingId        String          @db.Uuid
+  paidAt           DateTime?
+  failedAt         DateTime?
+  failureReason    String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  refunds          Refund[]
+
+  @@index([status])
+  @@index([bookingType, bookingId])
+  @@index([paidAt])
+}
+
+model Refund {
+  id              String          @id @default(uuid()) @db.Uuid
+  paymentId       String          @db.Uuid
+  payment         Payment         @relation(fields: [paymentId], references: [id])
+  amount          Decimal         @db.Decimal(10, 2)
+  reason          String
+  status          RefundStatus    @default(PENDING)
+  gatewayRef      String?
+  processedAt     DateTime?
+  createdAt       DateTime        @default(now())
+
+  @@index([paymentId])
+  @@index([status])
+}
+
+model Notification {
+  id              String           @id @default(uuid()) @db.Uuid
+  userId          String           @db.Uuid
+  user            User             @relation(fields: [userId], references: [id])
+  type            NotificationType
+  title           String
+  body            String
+  data            Json?
+  isRead          Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([type])
+  @@index([createdAt])
+}

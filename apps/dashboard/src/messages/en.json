@@ -1,0 +1,18 @@
+{
+  "Common": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "flights": "Flights",
+    "hotels": "Hotels",
+    "visas": "Visas",
+    "reports": "Reports",
+    "settings": "Settings"
+  }
+}

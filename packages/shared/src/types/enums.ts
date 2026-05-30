@@ -1,0 +1,84 @@
+export enum UserRole {
+  TRAVELER = 'TRAVELER',
+  BOOKING_AGENT = 'BOOKING_AGENT',
+  VISA_REVIEWER = 'VISA_REVIEWER',
+  FINANCE_VIEWER = 'FINANCE_VIEWER',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+}
+
+export enum Locale {
+  AR = 'AR',
+  EN = 'EN',
+}
+
+export enum CabinClass {
+  ECONOMY = 'ECONOMY',
+  BUSINESS = 'BUSINESS',
+  FIRST = 'FIRST',
+}
+
+export enum BookingStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+  REFUNDED = 'REFUNDED',
+}
+
+export enum PassengerType {
+  ADULT = 'ADULT',
+  CHILD = 'CHILD',
+  INFANT = 'INFANT',
+}
+
+export enum VisaStatus {
+  PENDING = 'PENDING',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  SUBMITTED_TO_MAQAM = 'SUBMITTED_TO_MAQAM',
+  MAQAM_ACCEPTED = 'MAQAM_ACCEPTED',
+  MAQAM_REJECTED = 'MAQAM_REJECTED',
+}
+
+export enum DocumentType {
+  PASSPORT_SCAN = 'PASSPORT_SCAN',
+  PERSONAL_PHOTO = 'PERSONAL_PHOTO',
+}
+
+export enum ValidationStatus {
+  PENDING = 'PENDING',
+  VALID = 'VALID',
+  INVALID = 'INVALID',
+}
+
+export enum PaymentMethod {
+  CREDIT_CARD = 'CREDIT_CARD',
+  MADA = 'MADA',
+  APPLE_PAY = 'APPLE_PAY',
+}
+
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  REFUNDED = 'REFUNDED',
+}
+
+export enum BookingType {
+  FLIGHT = 'FLIGHT',
+  HOTEL = 'HOTEL',
+}
+
+export enum RefundStatus {
+  PENDING = 'PENDING',
+  PROCESSED = 'PROCESSED',
+  FAILED = 'FAILED',
+}
+
+export enum NotificationType {
+  VISA_STATUS = 'VISA_STATUS',
+  BOOKING_CONFIRMED = 'BOOKING_CONFIRMED',
+  BOOKING_CANCELLED = 'BOOKING_CANCELLED',
+  PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
+  SYSTEM = 'SYSTEM',
+}

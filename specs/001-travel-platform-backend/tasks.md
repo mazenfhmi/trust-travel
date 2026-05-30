@@ -28,20 +28,20 @@
 
 **Purpose**: Initialize monorepo, install dependencies, configure tooling.
 
-- [ ] T001 Initialize pnpm workspace with `pnpm-workspace.yaml` defining `apps/*` and `packages/*` at repository root
-- [ ] T002 Create `packages/shared/` package with `package.json`, `tsconfig.json`, and `src/index.ts`
-- [ ] T003 [P] Create shared TypeScript enums in `packages/shared/src/types/enums.ts` (UserRole, BookingStatus, CabinClass, PassengerType, VisaStatus, DocumentType, ValidationStatus, PaymentMethod, PaymentStatus, BookingType, RefundStatus, NotificationType, Locale)
-- [ ] T004 [P] Create shared TypeScript type interfaces in `packages/shared/src/types/entities.ts` for all 12 entities from data-model.md
-- [ ] T005 [P] Create shared constants in `packages/shared/src/constants/index.ts` (booking reference prefixes, file size limits, supported currencies)
-- [ ] T006 Initialize NestJS application in `apps/api/` with `nest-cli.json`, `tsconfig.json`, `package.json`, and `src/main.ts`
-- [ ] T007 Initialize Next.js application in `apps/dashboard/` with App Router, `next.config.ts`, `tailwind.config.ts`, `tsconfig.json`, and `package.json`
-- [ ] T008 [P] Create root `tsconfig.base.json` with strict mode, `noUncheckedIndexedAccess`, and project references
-- [ ] T009 [P] Create root `.eslintrc.js` with shared ESLint config for both apps
-- [ ] T010 [P] Create root `.prettierrc` with shared Prettier config
-- [ ] T011 [P] Create `docker-compose.yml` at repository root with PostgreSQL 15, Redis 7, and MinIO services
-- [ ] T012 [P] Create `.gitignore` at repository root covering node_modules, .env, dist, .next, prisma generated client
-- [ ] T013 [P] Create `apps/api/.env.example` with all required environment variables from quickstart.md
-- [ ] T014 [P] Create `apps/dashboard/.env.example` with all required environment variables from quickstart.md
+- [x] T001 Initialize pnpm workspace with `pnpm-workspace.yaml` defining `apps/*` and `packages/*` at repository root
+- [x] T002 Create `packages/shared/` package with `package.json`, `tsconfig.json`, and `src/index.ts`
+- [x] T003 [P] Create shared TypeScript enums in `packages/shared/src/types/enums.ts` (UserRole, BookingStatus, CabinClass, PassengerType, VisaStatus, DocumentType, ValidationStatus, PaymentMethod, PaymentStatus, BookingType, RefundStatus, NotificationType, Locale)
+- [x] T004 [P] Create shared TypeScript type interfaces in `packages/shared/src/types/entities.ts` for all 12 entities from data-model.md
+- [x] T005 [P] Create shared constants in `packages/shared/src/constants/index.ts` (booking reference prefixes, file size limits, supported currencies)
+- [x] T006 Initialize NestJS application in `apps/api/` with `nest-cli.json`, `tsconfig.json`, `package.json`, and `src/main.ts`
+- [x] T007 Initialize Next.js application in `apps/dashboard/` with App Router, `next.config.ts`, `tailwind.config.ts`, `tsconfig.json`, and `package.json`
+- [x] T008 [P] Create root `tsconfig.base.json` with strict mode, `noUncheckedIndexedAccess`, and project references
+- [x] T009 [P] Create root `.eslintrc.js` with shared ESLint config for both apps
+- [x] T010 [P] Create root `.prettierrc` with shared Prettier config
+- [x] T011 [P] Create `docker-compose.yml` at repository root with PostgreSQL 15, Redis 7, and MinIO services
+- [x] T012 [P] Create `.gitignore` at repository root covering node_modules, .env, dist, .next, prisma generated client
+- [x] T013 [P] Create `apps/api/.env.example` with all required environment variables from quickstart.md
+- [x] T014 [P] Create `apps/dashboard/.env.example` with all required environment variables from quickstart.md
 
 ---
 
@@ -51,42 +51,42 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T015 Create Prisma schema in `apps/api/prisma/schema.prisma` with all 12 entities, enums, relations, and indexes from data-model.md
-- [ ] T016 Generate initial Prisma migration by running `pnpm prisma migrate dev --name init` in `apps/api/`
-- [ ] T017 Create Prisma seed script in `apps/api/prisma/seed.ts` with default admin users (super-admin, booking-agent, visa-reviewer, finance-viewer) and sample traveler from quickstart.md
-- [ ] T018 Create `PrismaModule` as a global module in `apps/api/src/prisma/prisma.module.ts` and `prisma.service.ts`
-- [ ] T019 [P] Create global `ValidationPipe` configuration in `apps/api/src/common/pipes/validation.pipe.ts` with whitelist, forbidNonWhitelisted, and transform enabled
-- [ ] T020 [P] Create `HttpExceptionFilter` in `apps/api/src/common/filters/http-exception.filter.ts` for standardized error responses
-- [ ] T021 [P] Create `TransformInterceptor` in `apps/api/src/common/interceptors/transform.interceptor.ts` for consistent response wrapping
-- [ ] T022 [P] Create `LoggingInterceptor` in `apps/api/src/common/interceptors/logging.interceptor.ts`
-- [ ] T023 [P] Create shared pagination DTOs in `apps/api/src/common/dto/pagination.dto.ts` (PaginationQueryDto, PaginatedResponseDto)
-- [ ] T024 Create `@Roles()` decorator in `apps/api/src/common/decorators/roles.decorator.ts`
-- [ ] T025 [P] Create `@Public()` decorator in `apps/api/src/common/decorators/public.decorator.ts` to skip auth on specific endpoints
-- [ ] T026 [P] Create `@CurrentUser()` parameter decorator in `apps/api/src/common/decorators/current-user.decorator.ts`
-- [ ] T027 Create `AuthModule` in `apps/api/src/auth/auth.module.ts` with Passport JWT strategy registration
-- [ ] T028 Create `JwtStrategy` in `apps/api/src/auth/strategies/jwt.strategy.ts` for access token validation
-- [ ] T029 Create `JwtRefreshStrategy` in `apps/api/src/auth/strategies/jwt-refresh.strategy.ts` for refresh token validation
-- [ ] T030 Create `JwtAuthGuard` in `apps/api/src/common/guards/jwt-auth.guard.ts` that respects `@Public()` decorator
-- [ ] T031 Create `RolesGuard` in `apps/api/src/common/guards/roles.guard.ts` with deny-by-default when `@Roles()` is present on a protected route
-- [ ] T032 Create `AuthService` in `apps/api/src/auth/auth.service.ts` with register, login, refresh, logout, validateUser, hashPassword, and comparePassword methods
-- [ ] T033 Create auth DTOs in `apps/api/src/auth/dto/` — `register.dto.ts`, `login.dto.ts`, `refresh-token.dto.ts`, `auth-response.dto.ts`
-- [ ] T034 Create `AuthController` in `apps/api/src/auth/auth.controller.ts` with POST /register, POST /login, POST /refresh, POST /logout endpoints per auth-api.md contract
-- [ ] T035 Register global guards (JwtAuthGuard, RolesGuard), pipes (ValidationPipe), filters (HttpExceptionFilter), and interceptors in `apps/api/src/app.module.ts`
-- [ ] T036 Create `AuthService` unit tests in `apps/api/src/auth/auth.service.spec.ts` (register, login, refresh, password hashing)
-- [ ] T037 Create auth e2e tests in `apps/api/test/auth.e2e-spec.ts` (register flow, login flow, refresh flow, protected route access, role-based access)
-- [ ] T038 Create `apps/dashboard/src/lib/api.ts` — fetch wrapper with base URL, auth header injection, token refresh interceptor, and error handling
-- [ ] T039 Create `apps/dashboard/src/lib/auth.ts` — auth helpers for storing/reading JWT from HTTP-only cookies, middleware for route protection
-- [ ] T040 Create `apps/dashboard/src/providers/query-provider.tsx` — React Query provider with default options (client component)
-- [ ] T041 Create root layout in `apps/dashboard/src/app/layout.tsx` — Server Component with HTML lang, Tailwind setup, font loading (Inter), QueryProvider, and ThemeProvider
-- [ ] T042 Create Shadcn/ui initial setup — install and configure `components.json`, add core primitives (Button, Input, Card, Dialog, Table, Badge, Skeleton, DropdownMenu, Sheet) to `apps/dashboard/src/components/ui/`
-- [ ] T043 Create design token system in `apps/dashboard/tailwind.config.ts` — colors, spacing, border-radii, shadows, and typography scales per constitution Principle VI
-- [ ] T044 Create sidebar navigation component in `apps/dashboard/src/components/layout/sidebar.tsx` with collapsible menu, route links (Dashboard, Flights, Hotels, Visas, Reports, Settings), and Lucide icons
-- [ ] T045 Create header component in `apps/dashboard/src/components/layout/header.tsx` with breadcrumbs, user menu, and notification bell
-- [ ] T046 Create login page in `apps/dashboard/src/app/(auth)/login/page.tsx` with email/password form, validation, and API integration
-- [ ] T047 Create auth layout in `apps/dashboard/src/app/(auth)/layout.tsx` — centered card layout without sidebar
-- [ ] T048 Create Next.js middleware in `apps/dashboard/src/middleware.ts` for route protection (redirect to /login if no auth cookie)
-- [ ] T049 [P] Create `apps/dashboard/src/messages/en.json` and `apps/dashboard/src/messages/ar.json` with initial i18n strings for common UI elements
-- [ ] T050 [P] Configure `next-intl` in `apps/dashboard/next.config.ts` and create i18n provider setup
+- [x] T015 Create Prisma schema in `apps/api/prisma/schema.prisma` with all 12 entities, enums, relations, and indexes from data-model.md
+- [x] T016 Generate initial Prisma migration by running `pnpm prisma migrate dev --name init` in `apps/api/`
+- [x] T017 Create Prisma seed script in `apps/api/prisma/seed.ts` with default admin users (super-admin, booking-agent, visa-reviewer, finance-viewer) and sample traveler from quickstart.md
+- [x] T018 Create `PrismaModule` as a global module in `apps/api/src/prisma/prisma.module.ts` and `prisma.service.ts`
+- [x] T019 [P] Create global `ValidationPipe` configuration in `apps/api/src/common/pipes/validation.pipe.ts` with whitelist, forbidNonWhitelisted, and transform enabled
+- [x] T020 [P] Create `HttpExceptionFilter` in `apps/api/src/common/filters/http-exception.filter.ts` for standardized error responses
+- [x] T021 [P] Create `TransformInterceptor` in `apps/api/src/common/interceptors/transform.interceptor.ts` for consistent response wrapping
+- [x] T022 [P] Create `LoggingInterceptor` in `apps/api/src/common/interceptors/logging.interceptor.ts`
+- [x] T023 [P] Create shared pagination DTOs in `apps/api/src/common/dto/pagination.dto.ts` (PaginationQueryDto, PaginatedResponseDto)
+- [x] T024 Create `@Roles()` decorator in `apps/api/src/common/decorators/roles.decorator.ts`
+- [x] T025 [P] Create `@Public()` decorator in `apps/api/src/common/decorators/public.decorator.ts` to skip auth on specific endpoints
+- [x] T026 [P] Create `@CurrentUser()` parameter decorator in `apps/api/src/common/decorators/current-user.decorator.ts`
+- [x] T027 Create `AuthModule` in `apps/api/src/auth/auth.module.ts` with Passport JWT strategy registration
+- [x] T028 Create `JwtStrategy` in `apps/api/src/auth/strategies/jwt.strategy.ts` for access token validation
+- [x] T029 Create `JwtRefreshStrategy` in `apps/api/src/auth/strategies/jwt-refresh.strategy.ts` for refresh token validation
+- [x] T030 Create `JwtAuthGuard` in `apps/api/src/common/guards/jwt-auth.guard.ts` that respects `@Public()` decorator
+- [x] T031 Create `RolesGuard` in `apps/api/src/common/guards/roles.guard.ts` with deny-by-default when `@Roles()` is present on a protected route
+- [x] T032 Create `AuthService` in `apps/api/src/auth/auth.service.ts` with register, login, refresh, logout, validateUser, hashPassword, and comparePassword methods
+- [x] T033 Create auth DTOs in `apps/api/src/auth/dto/` — `register.dto.ts`, `login.dto.ts`, `refresh-token.dto.ts`, `auth-response.dto.ts`
+- [x] T034 Create `AuthController` in `apps/api/src/auth/auth.controller.ts` with POST /register, POST /login, POST /refresh, POST /logout endpoints per auth-api.md contract
+- [x] T035 Register global guards (JwtAuthGuard, RolesGuard), pipes (ValidationPipe), filters (HttpExceptionFilter), and interceptors in `apps/api/src/app.module.ts`
+- [x] T036 Create `AuthService` unit tests in `apps/api/src/auth/auth.service.spec.ts` (register, login, refresh, password hashing)
+- [x] T037 Create auth e2e tests in `apps/api/test/auth.e2e-spec.ts` (register flow, login flow, refresh flow, protected route access, role-based access)
+- [x] T038 Create `apps/dashboard/src/lib/api.ts` — fetch wrapper with base URL, auth header injection, token refresh interceptor, and error handling
+- [x] T039 Create `apps/dashboard/src/lib/auth.ts` — auth helpers for storing/reading JWT from HTTP-only cookies, middleware for route protection
+- [x] T040 Create `apps/dashboard/src/providers/query-provider.tsx` — React Query provider with default options (client component)
+- [x] T041 Create root layout in `apps/dashboard/src/app/layout.tsx` — Server Component with HTML lang, Tailwind setup, font loading (Inter), QueryProvider, and ThemeProvider
+- [x] T042 Create Shadcn/ui initial setup — install and configure `components.json`, add core primitives (Button, Input, Card, Dialog, Table, Badge, Skeleton, DropdownMenu, Sheet) to `apps/dashboard/src/components/ui/`
+- [x] T043 Create design token system in `apps/dashboard/src/app/globals.css` — colors, spacing, border-radii, shadows, and typography scales per constitution Principle VI
+- [x] T044 Create sidebar navigation component in `apps/dashboard/src/components/layout/sidebar.tsx` with collapsible menu, route links (Dashboard, Flights, Hotels, Visas, Reports, Settings), and Lucide icons
+- [x] T045 Create header component in `apps/dashboard/src/components/layout/header.tsx` with breadcrumbs, user menu, and notification bell
+- [x] T046 Create login page in `apps/dashboard/src/app/(auth)/login/page.tsx` with email/password form, validation, and API integration
+- [x] T047 Create auth layout in `apps/dashboard/src/app/(auth)/layout.tsx` — centered card layout without sidebar
+- [x] T048 Create Next.js middleware in `apps/dashboard/src/middleware.ts` for route protection (redirect to /login if no auth cookie)
+- [x] T049 [P] Create `apps/dashboard/src/messages/en.json` and `apps/dashboard/src/messages/ar.json` with initial i18n strings for common UI elements
+- [x] T050 [P] Configure `next-intl` in `apps/dashboard/next.config.ts` and create i18n provider setup
 
 **Checkpoint**: Foundation ready — user story implementation can now begin in parallel.
 

@@ -1,0 +1,27 @@
+{
+  "name": "trust-travel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "build": "pnpm --recursive build",
+    "test": "pnpm --recursive test"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma",
+      "sharp",
+      "unrs-resolver",
+      "bcrypt",
+      "msw",
+      "@parcel/watcher",
+      "@swc/core"
+    ]
+  }
+}
