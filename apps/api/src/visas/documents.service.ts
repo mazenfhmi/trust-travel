@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { S3Service } from '../common/s3/s3.service';
 import { DocumentType } from '@prisma/client';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class DocumentsService {
@@ -27,7 +27,7 @@ export class DocumentsService {
 
   async uploadDocument(type: DocumentType, file: Express.Multer.File): Promise<string> {
     const extension = file.originalname.split('.').pop();
-    const key = `visas/${uuidv4()}.${extension}`;
+    const key = `visas/${randomUUID()}.${extension}`;
     
     await this.s3Service.uploadFile(key, file);
     return key;

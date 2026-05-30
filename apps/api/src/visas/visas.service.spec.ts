@@ -4,11 +4,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { DocumentsService } from './documents.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { VisaStatus, ValidationStatus, DocumentType } from '@prisma/client';
+import { NotificationsService } from '../notifications/notifications.service';
+import { EmailService } from '../notifications/email.service';
+import { NotificationsGateway } from '../notifications/notifications.gateway';
 
 describe('VisasService', () => {
   let service: VisasService;
   let prisma: PrismaService;
   let documentsService: DocumentsService;
+  let notificationsService: NotificationsService;
+  let emailService: EmailService;
+  let notificationsGateway: NotificationsGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,6 +30,9 @@ describe('VisasService', () => {
               count: jest.fn(),
               update: jest.fn(),
             },
+            user: {
+              findUnique: jest.fn(),
+            },
           },
         },
         {
@@ -32,6 +41,27 @@ describe('VisasService', () => {
             uploadDocument: jest.fn(),
             validateDocument: jest.fn(),
             getPresignedUrl: jest.fn(),
+          },
+        },
+        {
+          provide: NotificationsService,
+          useValue: {
+            createNotification: jest.fn(),
+            getUserNotifications: jest.fn(),
+            markAsRead: jest.fn(),
+            markAllAsRead: jest.fn(),
+          },
+        },
+        {
+          provide: EmailService,
+          useValue: {
+            sendVisaStatusUpdate: jest.fn(),
+          },
+        },
+        {
+          provide: NotificationsGateway,
+          useValue: {
+            emitToUser: jest.fn(),
           },
         },
       ],
@@ -49,17 +79,21 @@ describe('VisasService', () => {
   describe('applyForVisa', () => {
     it('should create a new visa application with documents', async () => {
       // Mock documents validation and upload
+      jest.spyOn(documentsService, 'validateDocument').mockReturnValue({ isValid: true });
       jest.spyOn(documentsService, 'uploadDocument').mockResolvedValue('key');
       jest.spyOn(prisma.visaApplication, 'create').mockResolvedValue({ id: 'app-1', status: VisaStatus.PENDING } as any);
 
-      const result = await service.applyForVisa('user-1', {
-        fullName: 'Test User',
-        passportNumber: 'A1234567',
-        nationality: 'SA',
-        dateOfBirth: '1990-01-01',
-        passportScan: { buffer: Buffer.from('test'), mimetype: 'image/jpeg', size: 1024 } as any,
-        personalPhoto: { buffer: Buffer.from('test'), mimetype: 'image/jpeg', size: 1024 } as any,
-      });
+      const result = await service.applyForVisa(
+        'user-1',
+        {
+          fullName: 'Test User',
+          passportNumber: 'A1234567',
+          nationality: 'SA',
+          dateOfBirth: '1990-01-01',
+        },
+        { buffer: Buffer.from('test'), originalname: 'passport.jpg', mimetype: 'image/jpeg', size: 1024 } as any,
+        { buffer: Buffer.from('test'), originalname: 'photo.jpg', mimetype: 'image/jpeg', size: 1024 } as any,
+      );
 
       expect(result.status).toBe(VisaStatus.PENDING);
       expect(prisma.visaApplication.create).toHaveBeenCalled();
@@ -68,19 +102,24 @@ describe('VisasService', () => {
 
     it('should throw BadRequestException if files are missing', async () => {
       await expect(
-        service.applyForVisa('user-1', {
-          fullName: 'Test User',
-          passportNumber: 'A1234567',
-          nationality: 'SA',
-          dateOfBirth: '1990-01-01',
-        } as any)
+        service.applyForVisa(
+          'user-1',
+          {
+            fullName: 'Test User',
+            passportNumber: 'A1234567',
+            nationality: 'SA',
+            dateOfBirth: '1990-01-01',
+          } as any,
+          null as any,
+          null as any,
+        )
       ).rejects.toThrow(BadRequestException);
     });
   });
 
   describe('getApplication', () => {
     it('should return application details if owned by user', async () => {
-      jest.spyOn(prisma.visaApplication, 'findUnique').mockResolvedValue({ id: 'app-1', userId: 'user-1' } as any);
+      jest.spyOn(prisma.visaApplication, 'findUnique').mockResolvedValue({ id: 'app-1', userId: 'user-1', documents: [] } as any);
       
       const result = await service.getApplication('user-1', 'app-1');
       expect(result.id).toBe('app-1');
@@ -94,8 +133,9 @@ describe('VisasService', () => {
 
   describe('reviewApplication', () => {
     it('should approve application and update status', async () => {
-      jest.spyOn(prisma.visaApplication, 'findUnique').mockResolvedValue({ id: 'app-1', status: VisaStatus.PENDING } as any);
-      jest.spyOn(prisma.visaApplication, 'update').mockResolvedValue({ id: 'app-1', status: VisaStatus.APPROVED } as any);
+      jest.spyOn(prisma.visaApplication, 'findUnique').mockResolvedValue({ id: 'app-1', status: VisaStatus.PENDING, userId: 'user-1' } as any);
+      jest.spyOn(prisma.visaApplication, 'update').mockResolvedValue({ id: 'app-1', status: VisaStatus.APPROVED, userId: 'user-1' } as any);
+      jest.spyOn(prisma.user, 'findUnique').mockResolvedValue({ id: 'user-1', email: 'test@test.com' } as any);
 
       const result = await service.reviewApplication('admin-1', 'app-1', { action: 'APPROVE', notes: 'OK' });
       expect(result.status).toBe(VisaStatus.APPROVED);

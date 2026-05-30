@@ -40,21 +40,22 @@ describe('DocumentsService', () => {
     it('should return false if size exceeds 5MB', () => {
       const result = service.validateDocument({ mimetype: 'image/jpeg', size: 6 * 1024 * 1024 } as any);
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('size');
+      expect(result.error).toContain('MB limit');
     });
 
     it('should return false for invalid mimetype', () => {
       const result = service.validateDocument({ mimetype: 'application/pdf', size: 1024 } as any);
       expect(result.isValid).toBe(false);
       expect(result.error).toContain('format');
+      expect(result.error).toBe('Invalid format. Accepted: JPEG, PNG');
     });
   });
 
   describe('uploadDocument', () => {
     it('should upload file via S3Service and return key', async () => {
       jest.spyOn(s3Service, 'uploadFile').mockResolvedValue('test-key');
-      const key = await service.uploadDocument(DocumentType.PASSPORT_SCAN, { buffer: Buffer.from('test'), mimetype: 'image/jpeg', size: 1024 } as any);
-      expect(key).toBe('test-key');
+      const key = await service.uploadDocument(DocumentType.PASSPORT_SCAN, { originalname: 'test.jpg', buffer: Buffer.from('test'), mimetype: 'image/jpeg', size: 1024 } as any);
+      expect(key).toMatch(/^visas\/.*\.jpg$/);
       expect(s3Service.uploadFile).toHaveBeenCalled();
     });
   });

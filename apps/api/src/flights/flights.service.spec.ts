@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { FLIGHT_PROVIDER } from './providers/flight-provider.interface';
 import { PaymentsService } from '../payments/payments.service';
 import { NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { PassengerType } from '@prisma/client';
 
 type MockFlightProvider = {
   search: jest.Mock;
@@ -130,7 +131,7 @@ describe('FlightsService', () => {
           passportNumber: 'A1234567',
           nationality: 'SA',
           dateOfBirth: '1990-01-15',
-          type: 'ADULT' as const,
+          type: PassengerType.ADULT,
         },
       ],
       contactEmail: 'ahmed@example.com',
