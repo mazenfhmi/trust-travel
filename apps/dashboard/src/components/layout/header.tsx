@@ -31,13 +31,15 @@ export function Header() {
           <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary" />
         </Button>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="h-5 w-5 text-primary" />
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={(props) => (
+              <Button {...props} variant="ghost" size="icon" className="rounded-full">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+              </Button>
+            )}
+          />
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />

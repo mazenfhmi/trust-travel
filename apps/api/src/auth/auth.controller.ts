@@ -5,7 +5,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
