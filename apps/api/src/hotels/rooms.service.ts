@@ -5,7 +5,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { HOTEL_PROVIDER, HotelProviderInterface } from './providers/hotel-provider.interface';
+import { HOTEL_PROVIDER } from './providers/hotel-provider.interface';
+import type { HotelProviderInterface } from './providers/hotel-provider.interface';
 import { BookHotelDto } from './dto/book-hotel.dto';
 import { PaymentsService } from '../payments/payments.service';
 import { BookingStatus, BookingType } from '@prisma/client';

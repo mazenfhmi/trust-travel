@@ -20,7 +20,8 @@ import { PaginationQueryDto } from '../common/dto/pagination.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { HOTEL_PROVIDER, HotelProviderInterface } from './providers/hotel-provider.interface';
+import { HOTEL_PROVIDER } from './providers/hotel-provider.interface';
+import type { HotelProviderInterface } from './providers/hotel-provider.interface';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { IsString, IsNotEmpty } from 'class-validator';
 

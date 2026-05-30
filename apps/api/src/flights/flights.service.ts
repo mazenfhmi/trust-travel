@@ -6,7 +6,8 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { FLIGHT_PROVIDER, FlightProviderInterface } from './providers/flight-provider.interface';
+import { FLIGHT_PROVIDER } from './providers/flight-provider.interface';
+import type { FlightProviderInterface } from './providers/flight-provider.interface';
 import { SearchFlightsQueryDto } from './dto/search-flights.dto';
 import { CompareFlightsDto } from './dto/compare-flights.dto';
 import { BookFlightDto } from './dto/book-flight.dto';

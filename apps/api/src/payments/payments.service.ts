@@ -6,7 +6,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PAYMENT_GATEWAY, PaymentGatewayInterface } from './gateways/payment-gateway.interface';
+import { PAYMENT_GATEWAY } from './gateways/payment-gateway.interface';
+import type { PaymentGatewayInterface } from './gateways/payment-gateway.interface';
 import { RefundDto } from './dto/payment.dto';
 import { BookingType, PaymentStatus, BookingStatus, RefundStatus } from '@prisma/client';
 

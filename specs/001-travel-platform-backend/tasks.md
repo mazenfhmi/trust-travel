@@ -168,27 +168,27 @@
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T085 [P] [US3] Create `VisasService` unit tests in `apps/api/src/visas/visas.service.spec.ts` (apply, getApplication, listApplications, validateDocuments)
-- [ ] T086 [P] [US3] Create `DocumentsService` unit tests in `apps/api/src/visas/documents.service.spec.ts` (upload, validate, getPresignedUrl)
-- [ ] T087 [P] [US3] Create visas e2e tests in `apps/api/test/visas.e2e-spec.ts` (application submission, document upload, status tracking, admin review flow)
+- [x] T085 [P] [US3] Create `VisasService` unit tests in `apps/api/src/visas/visas.service.spec.ts` (apply, getApplication, listApplications, validateDocuments)
+- [x] T086 [P] [US3] Create `DocumentsService` unit tests in `apps/api/src/visas/documents.service.spec.ts` (upload, validate, getPresignedUrl)
+- [x] T087 [P] [US3] Create visas e2e tests in `apps/api/test/visas.e2e-spec.ts` (application submission, document upload, status tracking, admin review flow)
 
 ### Implementation for User Story 3
 
-- [ ] T088 [P] [US3] Create S3 configuration module in `apps/api/src/common/s3/s3.module.ts` and `s3.service.ts` for MinIO/S3 operations (upload, getPresignedUrl, delete)
-- [ ] T089 [US3] Create visa application DTOs in `apps/api/src/visas/dto/` — `apply-visa.dto.ts` (fullName, passportNumber, nationality, dateOfBirth), `visa-response.dto.ts`, `review-visa.dto.ts`
-- [ ] T090 [US3] Create `DocumentsService` in `apps/api/src/visas/documents.service.ts` with uploadDocument (Multer → S3), validateDocument (format, size, basic checks), getPresignedUrl methods
-- [ ] T091 [US3] Create `VisasService` in `apps/api/src/visas/visas.service.ts` with applyForVisa, getApplication, listMyApplications, listAdminQueue, reviewApplication methods
-- [ ] T092 [US3] Create `MaqamIntegrationService` in `apps/api/src/visas/maqam/maqam-integration.service.ts` with submitToMaqam, pollStatus methods (mock implementation for dev)
-- [ ] T093 [US3] Create `MaqamProcessor` in `apps/api/src/visas/maqam/maqam.processor.ts` — BullMQ processor for queue-based Maqam submissions with exponential backoff retry
-- [ ] T094 [US3] Create `VisasController` in `apps/api/src/visas/visas.controller.ts` implementing all endpoints from visas-api.md (POST /apply with Multer file upload, GET /my-applications, GET /:id, GET /admin/queue, PATCH /admin/:id/review, POST /admin/:id/submit-to-maqam)
-- [ ] T095 [US3] Create `VisasModule` in `apps/api/src/visas/visas.module.ts` registering services, BullMQ queue (visa-maqam-queue), and S3Module
-- [ ] T096 [US3] Create `NotificationsService` in `apps/api/src/notifications/notifications.service.ts` with createNotification, getUserNotifications, markAsRead, markAllAsRead methods
-- [ ] T097 [US3] Create `EmailService` in `apps/api/src/notifications/email.service.ts` with sendVisaStatusUpdate, sendBookingConfirmation, sendBookingCancellation methods using Nodemailer
-- [ ] T098 [US3] Create `NotificationsGateway` (WebSocket) in `apps/api/src/notifications/notifications.gateway.ts` with Socket.IO — JWT auth on handshake, per-user rooms, emit events for visa:statusChanged, booking:confirmed, booking:cancelled, notification:new
-- [ ] T099 [US3] Create `NotificationsController` in `apps/api/src/notifications/notifications.controller.ts` with GET /, PATCH /:id/read, PATCH /read-all endpoints
-- [ ] T100 [US3] Create notification DTOs in `apps/api/src/notifications/dto/` — `notification-response.dto.ts`, `notification-query.dto.ts`
-- [ ] T101 [US3] Create `NotificationsModule` in `apps/api/src/notifications/notifications.module.ts` registering service, gateway, email service, and controller
-- [ ] T102 [US3] Wire notifications into VisasService — emit WebSocket events + send emails on visa status changes (pending → under_review → approved/rejected → maqam result)
+- [x] T088 [P] [US3] Create S3 configuration module in `apps/api/src/common/s3/s3.module.ts` and `s3.service.ts` for MinIO/S3 operations (upload, getPresignedUrl, delete)
+- [x] T089 [US3] Create visa application DTOs in `apps/api/src/visas/dto/` — `apply-visa.dto.ts` (fullName, passportNumber, nationality, dateOfBirth), `visa-response.dto.ts`, `review-visa.dto.ts`
+- [x] T090 [US3] Create `DocumentsService` in `apps/api/src/visas/documents.service.ts` with uploadDocument (Multer → S3), validateDocument (format, size, basic checks), getPresignedUrl methods
+- [x] T091 [US3] Create `VisasService` in `apps/api/src/visas/visas.service.ts` with applyForVisa, getApplication, listMyApplications, listAdminQueue, reviewApplication methods
+- [x] T092 [US3] Create `MaqamIntegrationService` in `apps/api/src/visas/maqam/maqam-integration.service.ts` with submitToMaqam, pollStatus methods (mock implementation for dev)
+- [x] T093 [US3] Create `MaqamProcessor` in `apps/api/src/visas/maqam/maqam.processor.ts` — BullMQ processor for queue-based Maqam submissions with exponential backoff retry
+- [x] T094 [US3] Create `VisasController` in `apps/api/src/visas/visas.controller.ts` implementing all endpoints from visas-api.md (POST /apply with Multer file upload, GET /my-applications, GET /:id, GET /admin/queue, PATCH /admin/:id/review, POST /admin/:id/submit-to-maqam)
+- [x] T095 [US3] Create `VisasModule` in `apps/api/src/visas/visas.module.ts` registering services, BullMQ queue (visa-maqam-queue), and S3Module
+- [x] T096 [US3] Create `NotificationsService` in `apps/api/src/notifications/notifications.service.ts` with createNotification, getUserNotifications, markAsRead, markAllAsRead methods
+- [x] T097 [US3] Create `EmailService` in `apps/api/src/notifications/email.service.ts` with sendVisaStatusUpdate, sendBookingConfirmation, sendBookingCancellation methods using Nodemailer
+- [x] T098 [US3] Create `NotificationsGateway` (WebSocket) in `apps/api/src/notifications/notifications.gateway.ts` with Socket.IO — JWT auth on handshake, per-user rooms, emit events for visa:statusChanged, booking:confirmed, booking:cancelled, notification:new
+- [x] T099 [US3] Create `NotificationsController` in `apps/api/src/notifications/notifications.controller.ts` with GET /, PATCH /:id/read, PATCH /read-all endpoints
+- [x] T100 [US3] Create notification DTOs in `apps/api/src/notifications/dto/` — `notification-response.dto.ts`, `notification-query.dto.ts`
+- [x] T101 [US3] Create `NotificationsModule` in `apps/api/src/notifications/notifications.module.ts` registering service, gateway, email service, and controller
+- [x] T102 [US3] Wire notifications into VisasService — emit WebSocket events + send emails on visa status changes (pending → under_review → approved/rejected → maqam result)
 
 **Checkpoint**: All P1 user stories should now be independently functional via API.
 

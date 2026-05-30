@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { FlightsModule } from './flights/flights.module';
 import { PaymentsModule } from './payments/payments.module';
 import { HotelsModule } from './hotels/hotels.module';
+import { VisasModule } from './visas/visas.module';
 import { globalValidationPipe } from './common/pipes/validation.pipe';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
@@ -15,7 +16,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
-  imports: [PrismaModule, AuthModule, FlightsModule, PaymentsModule, HotelsModule],
+  imports: [PrismaModule, AuthModule, FlightsModule, PaymentsModule, HotelsModule, VisasModule],
   controllers: [AppController],
   providers: [
     AppService,

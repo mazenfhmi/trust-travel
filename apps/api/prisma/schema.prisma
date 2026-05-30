@@ -140,6 +140,8 @@ model FlightBooking {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
+  payment            Payment?       @relation(fields: [paymentId], references: [id])
+
   passengers         Passenger[]
 
   @@index([userId])
@@ -229,6 +231,7 @@ model HotelBooking {
   currency           String         @default("SAR")
   status             BookingStatus  @default(PENDING)
   paymentId          String?        @db.Uuid
+  payment            Payment?       @relation(fields: [paymentId], references: [id])
   cancelledAt        DateTime?
   cancellationReason String?
   createdAt          DateTime       @default(now())
@@ -318,6 +321,8 @@ model Payment {
   updatedAt        DateTime        @updatedAt
 
   refunds          Refund[]
+  flightBookings   FlightBooking[]
+  hotelBookings    HotelBooking[]
 
   @@index([status])
   @@index([bookingType, bookingId])
