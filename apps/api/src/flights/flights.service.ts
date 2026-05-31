@@ -88,13 +88,13 @@ export class FlightsService {
       },
     });
 
-    // T068: Wire payment flow — create Payment record and return Moyasar payment URL
-    const { paymentUrl } = await this.paymentsService.createPayment({
+    // T068: Wire payment flow — create Payment record and return payment instructions
+    const { paymentInstructions } = await this.paymentsService.createPayment({
       bookingId: booking.id,
       bookingType: BookingType.FLIGHT,
       amount: totalAmount,
       currency: flight.price.currency,
-      method: 'CREDIT_CARD',
+      method: 'BANK_TRANSFER',
     });
 
     return {
@@ -103,7 +103,7 @@ export class FlightsService {
       status: booking.status,
       totalAmount: Number(booking.totalAmount),
       currency: booking.currency,
-      paymentUrl,
+      paymentInstructions,
     };
   }
 
@@ -143,7 +143,7 @@ export class FlightsService {
       currency: booking.currency,
       eTicketRef: booking.eTicketRef,
       payment: booking.payment
-        ? { status: booking.payment.status, method: booking.payment.method }
+        ? { id: booking.payment.id, status: booking.payment.status, method: booking.payment.method }
         : null,
       createdAt: booking.createdAt,
     };

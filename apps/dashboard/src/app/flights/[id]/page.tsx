@@ -3,6 +3,7 @@
 import React from 'react';
 import { useBookingDetail } from '../../../hooks/use-bookings';
 import { StatusBadge } from '../../../components/shared/status-badge';
+import { PaymentReview } from '../../../components/bookings/payment-review';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '../../../components/ui/button';
@@ -53,6 +54,13 @@ export default function FlightBookingDetail() {
             <p><span className="font-medium">Date Booked:</span> {new Date(booking.createdAt).toLocaleString()}</p>
             {booking.eTicketRef && <p><span className="font-medium">eTicket:</span> {booking.eTicketRef}</p>}
             {booking.providerRef && <p><span className="font-medium">PNR:</span> {booking.providerRef}</p>}
+            {booking.payment && (
+              <div className="mt-4 border-t pt-4">
+                <p><span className="font-medium">Payment Status:</span> <StatusBadge status={booking.payment.status} /></p>
+                <p><span className="font-medium">Method:</span> {booking.payment.method}</p>
+                <PaymentReview paymentId={booking.payment.id} status={booking.payment.status} />
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

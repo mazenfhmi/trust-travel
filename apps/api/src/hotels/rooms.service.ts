@@ -101,12 +101,12 @@ export class RoomsService {
     });
 
     // T084: Wire payment into RoomsService.bookRoom
-    const { paymentUrl } = await this.paymentsService.createPayment({
+    const { paymentInstructions } = await this.paymentsService.createPayment({
       bookingId: booking.id,
       bookingType: BookingType.HOTEL,
       amount: availability.totalPrice,
       currency: availability.currency,
-      method: 'CREDIT_CARD',
+      method: 'BANK_TRANSFER',
     });
 
     return {
@@ -120,7 +120,7 @@ export class RoomsService {
       nights: availability.totalNights,
       totalAmount: availability.totalPrice,
       currency: availability.currency,
-      paymentUrl,
+      paymentInstructions,
     };
   }
 }

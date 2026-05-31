@@ -56,11 +56,11 @@ export class ReportsService {
 
     return {
       summary: {
-        totalRevenue: Number(totalRevenueResult._sum.amount || 0),
+        totalRevenue: Number(totalRevenueResult?._sum?.amount || 0),
         totalTransactions: totalCount,
         byService: {
-          FLIGHT: { revenue: Number(flightsRevenue._sum.amount || 0), count: flightsCount },
-          HOTEL: { revenue: Number(hotelsRevenue._sum.amount || 0), count: hotelsCount },
+          FLIGHT: { revenue: Number(flightsRevenue?._sum?.amount || 0), count: flightsCount },
+          HOTEL: { revenue: Number(hotelsRevenue?._sum?.amount || 0), count: hotelsCount },
         },
         currency: 'SAR',
       },

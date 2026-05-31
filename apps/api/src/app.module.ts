@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_PIPE, APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -17,7 +18,19 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
-  imports: [PrismaModule, AuthModule, FlightsModule, PaymentsModule, HotelsModule, VisasModule, AdminModule],
+  imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
+    PrismaModule, 
+    AuthModule, 
+    FlightsModule, 
+    PaymentsModule, 
+    HotelsModule, 
+    VisasModule, 
+    AdminModule
+  ],
   controllers: [AppController],
   providers: [
     AppService,
@@ -36,6 +49,10 @@ import { RolesGuard } from './common/guards/roles.guard';
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     {
       provide: APP_GUARD,

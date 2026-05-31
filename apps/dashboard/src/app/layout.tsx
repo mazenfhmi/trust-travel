@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 
+import { SocketProvider } from '../providers/socket-provider';
+import { Toaster } from 'sonner';
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({
@@ -31,7 +34,10 @@ export default async function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
-            {children}
+            <SocketProvider>
+              {children}
+              <Toaster />
+            </SocketProvider>
           </QueryProvider>
         </NextIntlClientProvider>
       </body>

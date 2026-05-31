@@ -71,8 +71,8 @@ describe('FlightsService', () => {
           provide: PaymentsService,
           useValue: {
             createPayment: jest.fn().mockResolvedValue({
-              payment: { id: 'payment-id' },
-              paymentUrl: 'https://moyasar.com/pay/test',
+              id: 'payment-id',
+              instructions: { bankName: 'Mock Bank' },
             }),
           },
         },
@@ -153,7 +153,7 @@ describe('FlightsService', () => {
 
       expect(result).toHaveProperty('bookingId', 'booking-id');
       expect(result).toHaveProperty('reference', 'TT-FL-ABCDEF');
-      expect(result).toHaveProperty('paymentUrl');
+      expect(result).toHaveProperty('paymentInstructions');
       expect(paymentsService.createPayment).toHaveBeenCalled();
     });
 

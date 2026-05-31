@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Param,
   Body,
   HttpCode,
@@ -13,16 +14,20 @@ import { RefundDto } from './dto/payment.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { PaymentStatus } from '@prisma/client';
 
 @Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @Public()
-  @Post('webhook')
-  @HttpCode(HttpStatus.OK)
-  handleWebhook(@Body() payload: any) {
-    return this.paymentsService.handleWebhook(payload);
+  @Patch('admin/:id/status')
+  @Roles('FINANCE_VIEWER', 'BOOKING_AGENT', 'SUPER_ADMIN')
+  updateStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('status') status: PaymentStatus,
+    @CurrentUser() user: any,
+  ) {
+    return this.paymentsService.updatePaymentStatus(id, status, user.id);
   }
 
   @Get(':id')

@@ -116,14 +116,12 @@
 - [x] T059 [US1] Create `FlightsService` in `apps/api/src/flights/flights.service.ts` with search, compare, bookFlight, getBooking, listBookings, cancelBooking methods using Prisma and FlightProviderInterface
 - [x] T060 [US1] Create `FlightsController` in `apps/api/src/flights/flights.controller.ts` implementing all endpoints from flights-api.md contract (GET /search, POST /compare, POST /book, GET /:id, GET /, PATCH /:id/cancel)
 - [x] T061 [US1] Create `FlightsModule` in `apps/api/src/flights/flights.module.ts` registering controller, service, and mock provider
-- [x] T062 [US1] Create `PaymentGatewayInterface` in `apps/api/src/payments/gateways/payment-gateway.interface.ts` defining createPayment, verifyPayment, refundPayment methods
-- [x] T063 [US1] Create `MoyasarGateway` in `apps/api/src/payments/gateways/moyasar.gateway.ts` implementing the PaymentGatewayInterface (mock implementation for dev)
-- [x] T064 [US1] Create payment DTOs in `apps/api/src/payments/dto/` — `create-payment.dto.ts`, `payment-response.dto.ts`, `refund.dto.ts`
-- [x] T065 [US1] Create `PaymentsService` in `apps/api/src/payments/payments.service.ts` with createPayment, handleWebhook, getPayment, initiateRefund methods
-- [x] T066 [US1] Create `PaymentsController` in `apps/api/src/payments/payments.controller.ts` with POST /webhook (public), GET /:id, POST /:id/refund endpoints per payments-admin-notifications-api.md
-- [x] T067 [US1] Create `PaymentsModule` in `apps/api/src/payments/payments.module.ts` registering services and Moyasar gateway
-- [x] T068 [US1] Wire payment flow into FlightsService.bookFlight — create Payment record, generate Moyasar payment URL, return in booking response
-- [x] T069 [US1] Implement payment webhook handler to update Payment status → update FlightBooking status to CONFIRMED on success, generate eTicketRef
+- [x] T062 [US1] Create payment DTOs in `apps/api/src/payments/dto/` — `create-payment.dto.ts`, `payment-response.dto.ts`, `refund.dto.ts`, `update-payment-status.dto.ts`
+- [x] T063 [US1] Create `PaymentsService` in `apps/api/src/payments/payments.service.ts` with createPayment (Bank Transfer pending), updatePaymentStatus, getPayment, initiateRefund methods
+- [x] T064 [US1] Create `PaymentsController` in `apps/api/src/payments/payments.controller.ts` with GET /:id, PATCH /:id/status (Admin), POST /:id/refund endpoints per payments-admin-notifications-api.md
+- [x] T065 [US1] Create `PaymentsModule` in `apps/api/src/payments/payments.module.ts` registering services
+- [x] T066 [US1] Wire payment flow into FlightsService.bookFlight — create Payment record as PENDING with BANK_TRANSFER method, return in booking response
+- [x] T067 [US1] Implement payment manual confirmation logic in PaymentsService.updatePaymentStatus to update FlightBooking status to CONFIRMED on success, generate eTicketRef
 
 **Checkpoint**: At this point, User Story 1 (Flight Booking) should be fully functional and testable independently via API.
 
@@ -223,7 +221,8 @@
 - [x] T118 [US4] Create hotel bookings list page in `apps/dashboard/src/app/hotels/page.tsx` — Server Component with DataTable, search, and filters
 - [x] T119 [US4] Create hotel booking detail page in `apps/dashboard/src/app/hotels/[id]/page.tsx` — Server Component with booking details, hotel info, payment info, cancel button
 - [x] T120 [US4] Create cancel booking dialog component in `apps/dashboard/src/components/bookings/cancel-dialog.tsx` — client component with reason input and confirmation (uses Server Action)
-- [x] T121 [US4] Create bookings loading and error boundaries in `apps/dashboard/src/app/flights/loading.tsx`, `apps/dashboard/src/app/flights/error.tsx`, `apps/dashboard/src/app/hotels/loading.tsx`, `apps/dashboard/src/app/hotels/error.tsx`
+- [x] T121 [US4] Create payment review UI in booking details — display "Confirm Payment" / "Reject Payment" buttons for PENDING payments, linked to `PATCH /admin/payments/:id/status`
+- [x] T122 [US4] Create bookings loading and error boundaries in `apps/dashboard/src/app/flights/loading.tsx`, `apps/dashboard/src/app/flights/error.tsx`, `apps/dashboard/src/app/hotels/loading.tsx`, `apps/dashboard/src/app/hotels/error.tsx`
 
 **Checkpoint**: At this point, User Story 4 (Booking Management dashboard) should be fully functional.
 
@@ -245,12 +244,12 @@
 - [x] T124 [US5] Create `ReportsService` in `apps/api/src/admin/reports.service.ts` with generateFinancialReport, exportAsCsv, exportAsPdf methods using Prisma aggregations
 - [x] T125 [US5] Create report DTOs in `apps/api/src/admin/dto/` — `financial-report-query.dto.ts` (from, to, serviceType, paymentStatus, page, limit), `financial-report-response.dto.ts`
 - [x] T126 [US5] Create `ReportsController` in `apps/api/src/admin/reports.controller.ts` with GET /admin/reports/financial and GET /admin/reports/financial/export endpoints
-- [ ] T127 [US5] Create `useReports` React Query hook in `apps/dashboard/src/hooks/use-reports.ts` (getFinancialReport, exportReport)
-- [ ] T128 [US5] Create `ReportChart` component in `apps/dashboard/src/components/reports/report-chart.tsx` — client component with revenue breakdown visualization (bar/pie chart)
-- [ ] T129 [US5] Create `ExportButton` component in `apps/dashboard/src/components/reports/export-button.tsx` — client component with CSV/PDF format selector and download trigger
-- [ ] T130 [US5] Create `ReportFilters` component in `apps/dashboard/src/components/reports/report-filters.tsx` — client component with date range picker, service type select, payment status select
-- [ ] T131 [US5] Create reports page in `apps/dashboard/src/app/reports/page.tsx` — Server Component with summary cards, ReportChart, transaction DataTable, ReportFilters, and ExportButton
-- [ ] T132 [US5] Create `apps/dashboard/src/app/reports/loading.tsx` and `apps/dashboard/src/app/reports/error.tsx`
+- [x] T127 [US5] Create `useReports` React Query hook in `apps/dashboard/src/hooks/use-reports.ts` (getFinancialReport, exportReport)
+- [x] T128 [US5] Create `ReportChart` component in `apps/dashboard/src/components/reports/report-chart.tsx` — client component with revenue breakdown visualization (bar/pie chart)
+- [x] T129 [US5] Create `ExportButton` component in `apps/dashboard/src/components/reports/export-button.tsx` — client component with CSV/PDF format selector and download trigger
+- [x] T130 [US5] Create `ReportFilters` component in `apps/dashboard/src/components/reports/report-filters.tsx` — client component with date range picker, service type select, payment status select
+- [x] T131 [US5] Create reports page in `apps/dashboard/src/app/reports/page.tsx` — Server Component with summary cards, ReportChart, transaction DataTable, ReportFilters, and ExportButton
+- [x] T132 [US5] Create `apps/dashboard/src/app/reports/loading.tsx` and `apps/dashboard/src/app/reports/error.tsx`
 
 **Checkpoint**: At this point, User Stories 4 AND 5 (dashboard + reports) should both work independently.
 
@@ -264,20 +263,20 @@
 
 ### Tests for User Story 6 ⚠️
 
-- [ ] T133 [P] [US6] Create visa queue component test in `apps/dashboard/src/components/visas/visa-queue.test.tsx`
-- [ ] T134 [P] [US6] Create document viewer component test in `apps/dashboard/src/components/visas/document-viewer.test.tsx`
+- [x] T133 [P] [US6] Create visa queue component test in `apps/dashboard/src/components/visas/visa-queue.test.tsx`
+- [x] T134 [P] [US6] Create document viewer component test in `apps/dashboard/src/components/visas/document-viewer.test.tsx`
 
 ### Implementation for User Story 6
 
-- [ ] T135 [US6] Create `useVisas` React Query hook in `apps/dashboard/src/hooks/use-visas.ts` (listQueue, getApplication, reviewApplication, submitToMaqam)
-- [ ] T136 [US6] Create `VisaQueue` component in `apps/dashboard/src/components/visas/visa-queue.tsx` — DataTable showing pending applications with applicant name, submission date, document status, and status badge
-- [ ] T137 [US6] Create `DocumentViewer` component in `apps/dashboard/src/components/visas/document-viewer.tsx` — client component displaying passport scan and personal photo inline with zoom capability, using presigned URLs
-- [ ] T138 [US6] Create `ReviewActionPanel` component in `apps/dashboard/src/components/visas/review-action-panel.tsx` — client component with Approve/Reject buttons, notes textarea, rejection reason field, and confirmation dialog
-- [ ] T139 [US6] Create visa queue page in `apps/dashboard/src/app/visas/page.tsx` — Server Component with VisaQueue table, status filter, and search
-- [ ] T140 [US6] Create visa detail/review page in `apps/dashboard/src/app/visas/[id]/page.tsx` — Server Component showing applicant info, DocumentViewer, and ReviewActionPanel
-- [ ] T141 [US6] Create `apps/dashboard/src/app/visas/loading.tsx` and `apps/dashboard/src/app/visas/error.tsx`
-- [ ] T142 [US6] Create WebSocket integration in `apps/dashboard/src/providers/socket-provider.tsx` — client component connecting to notifications namespace, subscribing to visa:statusChanged events for real-time queue updates
-- [ ] T143 [US6] Create `useNotifications` hook in `apps/dashboard/src/hooks/use-notifications.ts` with WebSocket event listeners for real-time notification updates in the header bell
+- [x] T135 [US6] Create `useVisas` React Query hook in `apps/dashboard/src/hooks/use-visas.ts` (listQueue, getApplication, reviewApplication, submitToMaqam)
+- [x] T136 [US6] Create `VisaQueue` component in `apps/dashboard/src/components/visas/visa-queue.tsx` — DataTable showing pending applications with applicant name, submission date, document status, and status badge
+- [x] T137 [US6] Create `DocumentViewer` component in `apps/dashboard/src/components/visas/document-viewer.tsx` — client component displaying passport scan and personal photo inline with zoom capability, using presigned URLs
+- [x] T138 [US6] Create `ReviewActionPanel` component in `apps/dashboard/src/components/visas/review-action-panel.tsx` — client component with Approve/Reject buttons, notes textarea, rejection reason field, and confirmation dialog
+- [x] T139 [US6] Create visa queue page in `apps/dashboard/src/app/visas/page.tsx` — Server Component with VisaQueue table, status filter, and search
+- [x] T140 [US6] Create visa detail/review page in `apps/dashboard/src/app/visas/[id]/page.tsx` — Server Component showing applicant info, DocumentViewer, and ReviewActionPanel
+- [x] T141 [US6] Create `apps/dashboard/src/app/visas/loading.tsx` and `apps/dashboard/src/app/visas/error.tsx`
+- [x] T142 [US6] Create WebSocket integration in `apps/dashboard/src/providers/socket-provider.tsx` — client component connecting to notifications namespace, subscribing to visa:statusChanged events for real-time queue updates
+- [x] T143 [US6] Create `useNotifications` hook in `apps/dashboard/src/hooks/use-notifications.ts` with WebSocket event listeners for real-time notification updates in the header bell
 
 **Checkpoint**: All user stories should now be independently functional.
 
@@ -287,16 +286,16 @@
 
 **Purpose**: Improvements that affect multiple user stories.
 
-- [ ] T144 [P] Create Swagger/OpenAPI documentation setup in `apps/api/src/main.ts` using `@nestjs/swagger` with API prefix `/api/docs`
-- [ ] T145 [P] Create health check endpoint in `apps/api/src/app.controller.ts` — GET /api/v1/health returning DB and Redis connectivity status
-- [ ] T146 [P] Add rate limiting middleware using `@nestjs/throttler` in `apps/api/src/app.module.ts` for auth endpoints (login, register)
-- [ ] T147 [P] Add CORS configuration in `apps/api/src/main.ts` allowing dashboard origin
-- [ ] T148 [P] Create settings page in `apps/dashboard/src/app/settings/page.tsx` — Server Component with user profile, language switcher (AR/EN), and password change form
-- [ ] T149 Code cleanup — remove all TODO comments, ensure consistent naming conventions across both apps
-- [ ] T150 [P] Create `README.md` at repository root with project overview, architecture diagram, setup instructions (reference quickstart.md), and contribution guidelines
-- [ ] T151 [P] Add `apps/api/src/auth/guards/` unit tests in `apps/api/src/common/guards/jwt-auth.guard.spec.ts` and `apps/api/src/common/guards/roles.guard.spec.ts`
-- [ ] T152 Run full test suite (`pnpm test`) and fix any failures
-- [ ] T153 Run quickstart.md validation — follow setup steps from scratch, verify all services start, seed data loads, and default admin login works
+- [x] T144 [P] Create Swagger/OpenAPI documentation setup in `apps/api/src/main.ts` using `@nestjs/swagger` with API prefix `/api/docs`
+- [x] T145 [P] Create health check endpoint in `apps/api/src/app.controller.ts` — GET /api/v1/health returning DB and Redis connectivity status
+- [x] T146 [P] Add rate limiting middleware using `@nestjs/throttler` in `apps/api/src/app.module.ts` for auth endpoints (login, register)
+- [x] T147 [P] Add CORS configuration in `apps/api/src/main.ts` allowing dashboard origin
+- [x] T148 [P] Create settings page in `apps/dashboard/src/app/settings/page.tsx` — Server Component with user profile, language switcher (AR/EN), and password change form
+- [x] T149 Code cleanup — remove all TODO comments, ensure consistent naming conventions across both apps
+- [x] T150 [P] Create `README.md` at repository root with project overview, architecture diagram, setup instructions (reference quickstart.md), and contribution guidelines
+- [x] T151 [P] Add `apps/api/src/auth/guards/` unit tests in `apps/api/src/common/guards/jwt-auth.guard.spec.ts` and `apps/api/src/common/guards/roles.guard.spec.ts`
+- [x] T152 Run full test suite (`pnpm test`) and fix any failures
+- [x] T153 Run quickstart.md validation — follow setup steps from scratch, verify all services start, seed data loads, and default admin login works
 
 ---
 

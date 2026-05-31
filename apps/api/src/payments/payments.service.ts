@@ -1,13 +1,10 @@
 import {
   Injectable,
-  Inject,
   NotFoundException,
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PAYMENT_GATEWAY } from './gateways/payment-gateway.interface';
-import type { PaymentGatewayInterface } from './gateways/payment-gateway.interface';
 import { RefundDto } from './dto/payment.dto';
 import { BookingType, PaymentStatus, BookingStatus, RefundStatus } from '@prisma/client';
 
@@ -15,7 +12,6 @@ import { BookingType, PaymentStatus, BookingStatus, RefundStatus } from '@prisma
 export class PaymentsService {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(PAYMENT_GATEWAY) private readonly paymentGateway: PaymentGatewayInterface,
   ) {}
 
   async createPayment(params: {
@@ -28,58 +24,46 @@ export class PaymentsService {
   }) {
     const reference = `TT-PY-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    const gatewayResult = await this.paymentGateway.createPayment({
-      amount: params.amount,
-      currency: params.currency,
-      method: params.method,
-      description: `${params.bookingType} booking ${params.bookingId}`,
-      callbackUrl: params.callbackUrl ?? 'https://trust-travel.app/api/v1/payments/webhook',
-      metadata: { bookingId: params.bookingId, bookingType: params.bookingType },
-    });
-
     const payment = await this.prisma.payment.create({
       data: {
         reference,
         amount: params.amount,
         currency: params.currency,
-        method: params.method as any,
+        method: 'BANK_TRANSFER' as any, // Only Bank Transfer
         status: PaymentStatus.PENDING,
-        gatewayRef: gatewayResult.gatewayRef,
         bookingType: params.bookingType,
         bookingId: params.bookingId,
       },
     });
 
-    return { payment, paymentUrl: gatewayResult.paymentUrl };
+    return { payment, paymentInstructions: 'Please transfer to account XXXXXXXX' };
   }
 
-  async handleWebhook(payload: any) {
-    const { gatewayRef, status } = payload;
-
-    const payment = await this.prisma.payment.findFirst({
-      where: { gatewayRef },
+  async updatePaymentStatus(paymentId: string, status: PaymentStatus, adminUserId: string) {
+    const payment = await this.prisma.payment.findUnique({
+      where: { id: paymentId },
     });
 
     if (!payment) {
-      return { received: true };
+      throw new NotFoundException(`Payment ${paymentId} not found`);
     }
 
-    const isPaid = status === 'paid';
-    const newPaymentStatus = isPaid ? PaymentStatus.COMPLETED : PaymentStatus.FAILED;
+    if (payment.status !== PaymentStatus.PENDING) {
+      throw new BadRequestException(`Payment is already ${payment.status}`);
+    }
+
+    const isPaid = status === PaymentStatus.COMPLETED;
 
     await this.prisma.payment.update({
       where: { id: payment.id },
       data: {
-        status: newPaymentStatus,
-        gatewayResponse: payload,
+        status,
         paidAt: isPaid ? new Date() : null,
         failedAt: !isPaid ? new Date() : null,
-        failureReason: !isPaid ? payload.message : null,
       },
     });
 
     if (isPaid) {
-      // Update booking status based on type
       if (payment.bookingType === BookingType.FLIGHT) {
         const eTicketRef = `ET-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
         await this.prisma.flightBooking.update({
@@ -101,7 +85,7 @@ export class PaymentsService {
       }
     }
 
-    return { received: true };
+    return { updated: true, status };
   }
 
   async getPayment(paymentId: string, userId: string, userRole: string) {
@@ -173,19 +157,12 @@ export class PaymentsService {
       throw new BadRequestException('Refund amount exceeds payment amount');
     }
 
-    const gatewayResult = await this.paymentGateway.refundPayment({
-      gatewayRef: payment.gatewayRef!,
-      amount: dto.amount,
-      reason: dto.reason,
-    });
-
     const refund = await this.prisma.refund.create({
       data: {
         paymentId: payment.id,
         amount: dto.amount,
         reason: dto.reason,
         status: RefundStatus.PENDING,
-        gatewayRef: gatewayResult.gatewayRef,
       },
     });
 

@@ -18,7 +18,7 @@ describe('RoomsService', () => {
     };
 
     payments = {
-      createPayment: jest.fn().mockResolvedValue({ paymentUrl: 'http://pay.mock' }),
+      createPayment: jest.fn().mockResolvedValue({ id: 'mock', paymentInstructions: { bankName: 'Mock Bank', accountName: 'Mock Account', accountNumber: '1234', iban: 'SA1234' } }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -80,7 +80,7 @@ describe('RoomsService', () => {
       jest.spyOn(prisma.hotelBooking, 'create').mockResolvedValue({ id: 'booking-1', reference: 'TT-HT-123', status: 'PENDING' } as any);
 
       const result = await service.bookRoom('user-1', dto);
-      expect(result.paymentUrl).toBe('http://pay.mock');
+      expect(result.paymentInstructions).toBeDefined();
       expect(payments.createPayment).toHaveBeenCalled();
     });
 

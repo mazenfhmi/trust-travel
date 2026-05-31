@@ -7,17 +7,29 @@
 **Base Path**: `/api/v1/payments`
 **Auth**: All endpoints require `Authorization: Bearer <accessToken>`.
 
-### POST /webhook
+### PATCH /:id/status (Admin)
 
-Moyasar payment webhook callback. **No auth** (verified by signature).
+Update payment status manually (Bank Transfer confirmation). **Auth required (FINANCE_VIEWER+ or BOOKING_AGENT+)**.
 
-**Request Body**: Moyasar webhook payload (signature verified via `X-Moyasar-Signature` header).
+**Request Body**:
+```json
+{
+  "status": "COMPLETED" // or "FAILED"
+}
+```
 
-**Response 200**: `{ "received": true }`
+**Response 200**:
+```json
+{
+  "id": "uuid",
+  "reference": "TT-PY-XXXXXX",
+  "status": "COMPLETED",
+  "updatedAt": "ISO datetime"
+}
+```
 
 **Side Effects**:
-- On success: Updates Payment status to COMPLETED, updates booking status to CONFIRMED, sends confirmation notification + email.
-- On failure: Updates Payment status to FAILED, booking remains PENDING.
+- If `status` is COMPLETED: Updates booking status to CONFIRMED, sends confirmation notification + email.
 
 ---
 
