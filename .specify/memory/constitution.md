@@ -1,25 +1,22 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 0.0.0 → 1.0.0
-  Bump rationale: MAJOR — initial constitution ratification with all principles defined.
+  Version change: 1.0.0 → 1.1.0
+  Bump rationale: MINOR — Added new principle for Payment Processing constraints.
 
-  Modified principles: N/A (initial creation)
+  Modified principles: None
 
   Added sections:
-    - Core Principles (7 principles)
-    - Technology Stack & Constraints
-    - Development Workflow & Quality Gates
-    - Governance
+    - Core Principles (VIII. Payment Processing)
 
-  Removed sections: N/A
+  Removed sections: None
 
   Templates requiring updates:
-    - .specify/templates/plan-template.md        ✅ reviewed (no update needed — generic placeholders)
-    - .specify/templates/spec-template.md         ✅ reviewed (no update needed — generic placeholders)
-    - .specify/templates/tasks-template.md        ✅ reviewed (no update needed — generic placeholders)
+    - .specify/templates/plan-template.md        ✅ reviewed
+    - .specify/templates/spec-template.md        ✅ reviewed
+    - .specify/templates/tasks-template.md       ✅ reviewed
 
-  Follow-up TODOs: None
+  Follow-up TODOs: Implement Bank Transfer payment method and manual confirmation flow in API and dashboard.
 -->
 
 # Trust Travel Constitution
@@ -149,6 +146,13 @@ regressions.
 - CI pipelines MUST run the full test suite — merges to `main` are
   blocked if tests fail.
 
+### VIII. Payment Processing (NON-NEGOTIABLE)
+
+Currently, the only supported payment method is Bank Transfer.
+- Payment confirmation MUST NOT be automated.
+- All payments MUST be manually reviewed and confirmed from the Control Panel.
+- Any other automated gateway (e.g. Moyasar) MUST be disabled or removed until further notice.
+
 ## Technology Stack & Constraints
 
 | Layer           | Technology                                  |
@@ -210,4 +214,4 @@ this document and any other guideline, this document prevails.
 - **Runtime Guidance**: See `AGENTS.md` for agent-specific development
   guidance and Spec Kit workflow commands.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-30 | **Last Amended**: 2026-05-30
+**Version**: 1.1.0 | **Ratified**: 2026-05-30 | **Last Amended**: 2026-05-30

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import {
   PaymentGatewayInterface,
   CreatePaymentParams,
@@ -15,7 +15,7 @@ import {
 @Injectable()
 export class MoyasarGateway implements PaymentGatewayInterface {
   async createPayment(params: CreatePaymentParams): Promise<PaymentGatewayResult> {
-    const gatewayRef = `moyasar_${uuidv4().replace(/-/g, '')}`;
+    const gatewayRef = `moyasar_${randomUUID().replace(/-/g, '')}`;
 
     // Mock: returns a fake payment URL
     return {
@@ -35,7 +35,7 @@ export class MoyasarGateway implements PaymentGatewayInterface {
 
   async refundPayment(params: RefundParams): Promise<RefundResult> {
     return {
-      gatewayRef: `refund_${uuidv4().replace(/-/g, '')}`,
+      gatewayRef: `mock_txn_${randomUUID().replace(/-/g, '')}`,
       status: 'refunded',
     };
   }

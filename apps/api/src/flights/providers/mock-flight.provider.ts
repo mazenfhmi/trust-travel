@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import {
   FlightProviderInterface,
   FlightSearchParams,
@@ -90,7 +90,7 @@ export class MockFlightProvider implements FlightProviderInterface {
       results,
       meta: {
         totalResults: results.length,
-        searchId: uuidv4(),
+        searchId: randomUUID(),
       },
     };
   }

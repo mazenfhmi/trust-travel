@@ -102,28 +102,28 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T051 [P] [US1] Create `FlightsService` unit tests in `apps/api/src/flights/flights.service.spec.ts` (search, compare, book, cancel, get, list)
-- [ ] T052 [P] [US1] Create flights e2e tests in `apps/api/test/flights.e2e-spec.ts` (search endpoint, compare endpoint, booking flow, cancellation flow, auth checks)
+- [x] T051 [P] [US1] Create `FlightsService` unit tests in `apps/api/src/flights/flights.service.spec.ts` (search, compare, book, cancel, get, list)
+- [x] T052 [P] [US1] Create flights e2e tests in `apps/api/test/flights.e2e-spec.ts` (search endpoint, compare endpoint, booking flow, cancellation flow, auth checks)
 
 ### Implementation for User Story 1
 
-- [ ] T053 [P] [US1] Create `FlightProviderInterface` in `apps/api/src/flights/providers/flight-provider.interface.ts` defining search, getFlightDetails, and holdSeat methods
-- [ ] T054 [P] [US1] Create `MockFlightProvider` in `apps/api/src/flights/providers/mock-flight.provider.ts` with seed data for Riyadh–Istanbul, Jeddah–Cairo, and Riyadh–Dubai routes
-- [ ] T055 [US1] Create flight search DTOs in `apps/api/src/flights/dto/search-flights.dto.ts` — SearchFlightsQueryDto with class-validator decorators for origin, destination, dates, passengers, cabinClass
-- [ ] T056 [P] [US1] Create `CompareFlightsDto` in `apps/api/src/flights/dto/compare-flights.dto.ts` with array validation (max 3 IDs)
-- [ ] T057 [P] [US1] Create `BookFlightDto` in `apps/api/src/flights/dto/book-flight.dto.ts` with nested passenger validation using class-validator
-- [ ] T058 [P] [US1] Create flight response DTOs in `apps/api/src/flights/dto/flight-response.dto.ts` — FlightSearchResultDto, FlightBookingResponseDto, FlightBookingDetailDto
-- [ ] T059 [US1] Create `FlightsService` in `apps/api/src/flights/flights.service.ts` with search, compare, bookFlight, getBooking, listBookings, cancelBooking methods using Prisma and FlightProviderInterface
-- [ ] T060 [US1] Create `FlightsController` in `apps/api/src/flights/flights.controller.ts` implementing all endpoints from flights-api.md contract (GET /search, POST /compare, POST /book, GET /:id, GET /, PATCH /:id/cancel)
-- [ ] T061 [US1] Create `FlightsModule` in `apps/api/src/flights/flights.module.ts` registering controller, service, and mock provider
-- [ ] T062 [US1] Create `PaymentGatewayInterface` in `apps/api/src/payments/gateways/payment-gateway.interface.ts` defining createPayment, verifyPayment, refundPayment methods
-- [ ] T063 [US1] Create `MoyasarGateway` in `apps/api/src/payments/gateways/moyasar.gateway.ts` implementing the PaymentGatewayInterface (mock implementation for dev)
-- [ ] T064 [US1] Create payment DTOs in `apps/api/src/payments/dto/` — `create-payment.dto.ts`, `payment-response.dto.ts`, `refund.dto.ts`
-- [ ] T065 [US1] Create `PaymentsService` in `apps/api/src/payments/payments.service.ts` with createPayment, handleWebhook, getPayment, initiateRefund methods
-- [ ] T066 [US1] Create `PaymentsController` in `apps/api/src/payments/payments.controller.ts` with POST /webhook (public), GET /:id, POST /:id/refund endpoints per payments-admin-notifications-api.md
-- [ ] T067 [US1] Create `PaymentsModule` in `apps/api/src/payments/payments.module.ts` registering services and Moyasar gateway
-- [ ] T068 [US1] Wire payment flow into FlightsService.bookFlight — create Payment record, generate Moyasar payment URL, return in booking response
-- [ ] T069 [US1] Implement payment webhook handler to update Payment status → update FlightBooking status to CONFIRMED on success, generate eTicketRef
+- [x] T053 [P] [US1] Create `FlightProviderInterface` in `apps/api/src/flights/providers/flight-provider.interface.ts` defining search, getFlightDetails, and holdSeat methods
+- [x] T054 [P] [US1] Create `MockFlightProvider` in `apps/api/src/flights/providers/mock-flight.provider.ts` with seed data for Riyadh–Istanbul, Jeddah–Cairo, and Riyadh–Dubai routes
+- [x] T055 [US1] Create flight search DTOs in `apps/api/src/flights/dto/search-flights.dto.ts` — SearchFlightsQueryDto with class-validator decorators for origin, destination, dates, passengers, cabinClass
+- [x] T056 [P] [US1] Create `CompareFlightsDto` in `apps/api/src/flights/dto/compare-flights.dto.ts` with array validation (max 3 IDs)
+- [x] T057 [P] [US1] Create `BookFlightDto` in `apps/api/src/flights/dto/book-flight.dto.ts` with nested passenger validation using class-validator
+- [x] T058 [P] [US1] Create flight response DTOs in `apps/api/src/flights/dto/flight-response.dto.ts` — FlightSearchResultDto, FlightBookingResponseDto, FlightBookingDetailDto
+- [x] T059 [US1] Create `FlightsService` in `apps/api/src/flights/flights.service.ts` with search, compare, bookFlight, getBooking, listBookings, cancelBooking methods using Prisma and FlightProviderInterface
+- [x] T060 [US1] Create `FlightsController` in `apps/api/src/flights/flights.controller.ts` implementing all endpoints from flights-api.md contract (GET /search, POST /compare, POST /book, GET /:id, GET /, PATCH /:id/cancel)
+- [x] T061 [US1] Create `FlightsModule` in `apps/api/src/flights/flights.module.ts` registering controller, service, and mock provider
+- [x] T062 [US1] Create `PaymentGatewayInterface` in `apps/api/src/payments/gateways/payment-gateway.interface.ts` defining createPayment, verifyPayment, refundPayment methods
+- [x] T063 [US1] Create `MoyasarGateway` in `apps/api/src/payments/gateways/moyasar.gateway.ts` implementing the PaymentGatewayInterface (mock implementation for dev)
+- [x] T064 [US1] Create payment DTOs in `apps/api/src/payments/dto/` — `create-payment.dto.ts`, `payment-response.dto.ts`, `refund.dto.ts`
+- [x] T065 [US1] Create `PaymentsService` in `apps/api/src/payments/payments.service.ts` with createPayment, handleWebhook, getPayment, initiateRefund methods
+- [x] T066 [US1] Create `PaymentsController` in `apps/api/src/payments/payments.controller.ts` with POST /webhook (public), GET /:id, POST /:id/refund endpoints per payments-admin-notifications-api.md
+- [x] T067 [US1] Create `PaymentsModule` in `apps/api/src/payments/payments.module.ts` registering services and Moyasar gateway
+- [x] T068 [US1] Wire payment flow into FlightsService.bookFlight — create Payment record, generate Moyasar payment URL, return in booking response
+- [x] T069 [US1] Implement payment webhook handler to update Payment status → update FlightBooking status to CONFIRMED on success, generate eTicketRef
 
 **Checkpoint**: At this point, User Story 1 (Flight Booking) should be fully functional and testable independently via API.
 
@@ -137,24 +137,24 @@
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T070 [P] [US2] Create `HotelsService` unit tests in `apps/api/src/hotels/hotels.service.spec.ts` (search, getDetail, checkAvailability, book, cancel)
-- [ ] T071 [P] [US2] Create `ReviewsService` unit tests in `apps/api/src/hotels/reviews.service.spec.ts` (create, list)
-- [ ] T072 [P] [US2] Create hotels e2e tests in `apps/api/test/hotels.e2e-spec.ts` (search, detail, availability, booking flow, review submission)
+- [x] T070 [P] [US2] Create `HotelsService` unit tests in `apps/api/src/hotels/hotels.service.spec.ts` (search, getDetail, checkAvailability, book, cancel)
+- [x] T071 [P] [US2] Create `ReviewsService` unit tests in `apps/api/src/hotels/reviews.service.spec.ts` (create, list)
+- [x] T072 [P] [US2] Create hotels e2e tests in `apps/api/test/hotels.e2e-spec.ts` (search, detail, availability, booking flow, review submission)
 
 ### Implementation for User Story 2
 
-- [ ] T073 [P] [US2] Create `HotelProviderInterface` in `apps/api/src/hotels/providers/hotel-provider.interface.ts` defining search, getHotelDetails, checkAvailability methods
-- [ ] T074 [P] [US2] Create `MockHotelProvider` in `apps/api/src/hotels/providers/mock-hotel.provider.ts` with seed data for hotels in Makkah, Madinah, and Riyadh
-- [ ] T075 [US2] Create hotel search DTOs in `apps/api/src/hotels/dto/search-hotels.dto.ts` — SearchHotelsQueryDto with city, dates, guests, minStars, maxPrice
-- [ ] T076 [P] [US2] Create `BookHotelDto` in `apps/api/src/hotels/dto/book-hotel.dto.ts` with hotelId, roomId, dates, guestCount validation
-- [ ] T077 [P] [US2] Create `CreateReviewDto` in `apps/api/src/hotels/dto/create-review.dto.ts` with rating (1–5), title, body validation
-- [ ] T078 [P] [US2] Create hotel response DTOs in `apps/api/src/hotels/dto/hotel-response.dto.ts` — HotelListItemDto, HotelDetailDto, RoomDto, RoomAvailabilityDto, HotelBookingResponseDto
-- [ ] T079 [US2] Create `HotelsService` in `apps/api/src/hotels/hotels.service.ts` with search, getHotelDetail, listBookings, getBooking, cancelBooking methods
-- [ ] T080 [US2] Create `RoomsService` in `apps/api/src/hotels/rooms.service.ts` with checkAvailability, bookRoom methods
-- [ ] T081 [US2] Create `ReviewsService` in `apps/api/src/hotels/reviews.service.ts` with createReview, getReviewsByHotel methods
-- [ ] T082 [US2] Create `HotelsController` in `apps/api/src/hotels/hotels.controller.ts` implementing all endpoints from hotels-api.md contract
-- [ ] T083 [US2] Create `HotelsModule` in `apps/api/src/hotels/hotels.module.ts` registering all services and mock provider
-- [ ] T084 [US2] Wire payment flow into RoomsService.bookRoom — create Payment, generate payment URL, return in booking response (reuses PaymentsModule)
+- [x] T073 [P] [US2] Create `HotelProviderInterface` in `apps/api/src/hotels/providers/hotel-provider.interface.ts` defining search, getHotelDetails, checkAvailability methods
+- [x] T074 [P] [US2] Create `MockHotelProvider` in `apps/api/src/hotels/providers/mock-hotel.provider.ts` with seed data for hotels in Makkah, Madinah, and Riyadh
+- [x] T075 [US2] Create hotel search DTOs in `apps/api/src/hotels/dto/search-hotels.dto.ts` — SearchHotelsQueryDto with city, dates, guests, minStars, maxPrice
+- [x] T076 [P] [US2] Create `BookHotelDto` in `apps/api/src/hotels/dto/book-hotel.dto.ts` with hotelId, roomId, dates, guestCount validation
+- [x] T077 [P] [US2] Create `CreateReviewDto` in `apps/api/src/hotels/dto/create-review.dto.ts` with rating (1–5), title, body validation
+- [x] T078 [P] [US2] Create hotel response DTOs in `apps/api/src/hotels/dto/hotel-response.dto.ts` — HotelListItemDto, HotelDetailDto, RoomDto, RoomAvailabilityDto, HotelBookingResponseDto
+- [x] T079 [US2] Create `HotelsService` in `apps/api/src/hotels/hotels.service.ts` with search, getHotelDetail, listBookings, getBooking, cancelBooking methods
+- [x] T080 [US2] Create `RoomsService` in `apps/api/src/hotels/rooms.service.ts` with checkAvailability, bookRoom methods
+- [x] T081 [US2] Create `ReviewsService` in `apps/api/src/hotels/reviews.service.ts` with createReview, getReviewsByHotel methods
+- [x] T082 [US2] Create `HotelsController` in `apps/api/src/hotels/hotels.controller.ts` implementing all endpoints from hotels-api.md contract
+- [x] T083 [US2] Create `HotelsModule` in `apps/api/src/hotels/hotels.module.ts` registering all services and mock provider
+- [x] T084 [US2] Wire payment flow into RoomsService.bookRoom — create Payment, generate payment URL, return in booking response (reuses PaymentsModule)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently.
 
@@ -202,28 +202,28 @@
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T103 [P] [US4] Create dashboard component tests in `apps/dashboard/src/components/dashboard/summary-card.test.tsx` and `status-badge.test.tsx`
-- [ ] T104 [P] [US4] Create booking table component test in `apps/dashboard/src/components/bookings/booking-table.test.tsx`
+- [x] T103 [P] [US4] Create dashboard component tests in `apps/dashboard/src/components/dashboard/summary-card.test.tsx` and `status-badge.test.tsx`
+- [x] T104 [P] [US4] Create booking table component test in `apps/dashboard/src/components/bookings/booking-table.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T105 [US4] Create `DashboardController` in `apps/api/src/admin/dashboard.controller.ts` with GET /admin/dashboard/summary endpoint per payments-admin-notifications-api.md
-- [ ] T106 [US4] Create `DashboardService` in `apps/api/src/admin/dashboard.service.ts` with getSummary method aggregating flight, hotel, and visa counts from Prisma
-- [ ] T107 [US4] Create `AdminModule` in `apps/api/src/admin/admin.module.ts` registering dashboard and reports controllers/services
-- [ ] T108 [US4] Create `SummaryCard` component in `apps/dashboard/src/components/dashboard/summary-card.tsx` — displays metric title, count, trend indicator, and status breakdown
-- [ ] T109 [P] [US4] Create `StatusBadge` component in `apps/dashboard/src/components/shared/status-badge.tsx` — color-coded badge for booking/visa statuses
-- [ ] T110 [P] [US4] Create `DataTable` component in `apps/dashboard/src/components/shared/data-table.tsx` — reusable sortable, filterable table with pagination using Shadcn/ui Table
-- [ ] T111 [P] [US4] Create `SearchInput` component in `apps/dashboard/src/components/shared/search-input.tsx` with debounced search
-- [ ] T112 [US4] Create `useBookings` React Query hook in `apps/dashboard/src/hooks/use-bookings.ts` (listFlightBookings, listHotelBookings, getBooking, cancelBooking)
-- [ ] T113 [US4] Create dashboard page in `apps/dashboard/src/app/page.tsx` — Server Component fetching summary data, rendering SummaryCards for flights, hotels, and visas
-- [ ] T114 [US4] Create `apps/dashboard/src/app/loading.tsx` with skeleton loaders for dashboard cards
-- [ ] T115 [US4] Create `apps/dashboard/src/app/error.tsx` with error boundary UI
-- [ ] T116 [US4] Create flight bookings list page in `apps/dashboard/src/app/flights/page.tsx` — Server Component with DataTable, search, status filter, and pagination
-- [ ] T117 [US4] Create flight booking detail page in `apps/dashboard/src/app/flights/[id]/page.tsx` — Server Component showing booking details, passenger list, payment info, cancel button
-- [ ] T118 [US4] Create hotel bookings list page in `apps/dashboard/src/app/hotels/page.tsx` — Server Component with DataTable, search, and filters
-- [ ] T119 [US4] Create hotel booking detail page in `apps/dashboard/src/app/hotels/[id]/page.tsx` — Server Component with booking details, hotel info, payment info, cancel button
-- [ ] T120 [US4] Create cancel booking dialog component in `apps/dashboard/src/components/bookings/cancel-dialog.tsx` — client component with reason input and confirmation (uses Server Action)
-- [ ] T121 [US4] Create bookings loading and error boundaries in `apps/dashboard/src/app/flights/loading.tsx`, `apps/dashboard/src/app/flights/error.tsx`, `apps/dashboard/src/app/hotels/loading.tsx`, `apps/dashboard/src/app/hotels/error.tsx`
+- [x] T105 [US4] Create `DashboardController` in `apps/api/src/admin/dashboard.controller.ts` with GET /admin/dashboard/summary endpoint per payments-admin-notifications-api.md
+- [x] T106 [US4] Create `DashboardService` in `apps/api/src/admin/dashboard.service.ts` with getSummary method aggregating flight, hotel, and visa counts from Prisma
+- [x] T107 [US4] Create `AdminModule` in `apps/api/src/admin/admin.module.ts` registering dashboard and reports controllers/services
+- [x] T108 [US4] Create `SummaryCard` component in `apps/dashboard/src/components/dashboard/summary-card.tsx` — displays metric title, count, trend indicator, and status breakdown
+- [x] T109 [P] [US4] Create `StatusBadge` component in `apps/dashboard/src/components/shared/status-badge.tsx` — color-coded badge for booking/visa statuses
+- [x] T110 [P] [US4] Create `DataTable` component in `apps/dashboard/src/components/shared/data-table.tsx` — reusable sortable, filterable table with pagination using Shadcn/ui Table
+- [x] T111 [P] [US4] Create `SearchInput` component in `apps/dashboard/src/components/shared/search-input.tsx` with debounced search
+- [x] T112 [US4] Create `useBookings` React Query hook in `apps/dashboard/src/hooks/use-bookings.ts` (listFlightBookings, listHotelBookings, getBooking, cancelBooking)
+- [x] T113 [US4] Create dashboard page in `apps/dashboard/src/app/page.tsx` — Server Component fetching summary data, rendering SummaryCards for flights, hotels, and visas
+- [x] T114 [US4] Create `apps/dashboard/src/app/loading.tsx` with skeleton loaders for dashboard cards
+- [x] T115 [US4] Create `apps/dashboard/src/app/error.tsx` with error boundary UI
+- [x] T116 [US4] Create flight bookings list page in `apps/dashboard/src/app/flights/page.tsx` — Server Component with DataTable, search, status filter, and pagination
+- [x] T117 [US4] Create flight booking detail page in `apps/dashboard/src/app/flights/[id]/page.tsx` — Server Component showing booking details, passenger list, payment info, cancel button
+- [x] T118 [US4] Create hotel bookings list page in `apps/dashboard/src/app/hotels/page.tsx` — Server Component with DataTable, search, and filters
+- [x] T119 [US4] Create hotel booking detail page in `apps/dashboard/src/app/hotels/[id]/page.tsx` — Server Component with booking details, hotel info, payment info, cancel button
+- [x] T120 [US4] Create cancel booking dialog component in `apps/dashboard/src/components/bookings/cancel-dialog.tsx` — client component with reason input and confirmation (uses Server Action)
+- [x] T121 [US4] Create bookings loading and error boundaries in `apps/dashboard/src/app/flights/loading.tsx`, `apps/dashboard/src/app/flights/error.tsx`, `apps/dashboard/src/app/hotels/loading.tsx`, `apps/dashboard/src/app/hotels/error.tsx`
 
 **Checkpoint**: At this point, User Story 4 (Booking Management dashboard) should be fully functional.
 
@@ -237,14 +237,14 @@
 
 ### Tests for User Story 5 ⚠️
 
-- [ ] T122 [P] [US5] Create `ReportsService` unit tests in `apps/api/src/admin/reports.service.spec.ts` (generateReport, exportCsv, exportPdf)
-- [ ] T123 [P] [US5] Create report chart component test in `apps/dashboard/src/components/reports/report-chart.test.tsx`
+- [x] T122 [P] [US5] Create `ReportsService` unit tests in `apps/api/src/admin/reports.service.spec.ts` (generateReport, exportCsv, exportPdf)
+- [x] T123 [P] [US5] Create report chart component test in `apps/dashboard/src/components/reports/report-chart.test.tsx`
 
 ### Implementation for User Story 5
 
-- [ ] T124 [US5] Create `ReportsService` in `apps/api/src/admin/reports.service.ts` with generateFinancialReport, exportAsCsv, exportAsPdf methods using Prisma aggregations
-- [ ] T125 [US5] Create report DTOs in `apps/api/src/admin/dto/` — `financial-report-query.dto.ts` (from, to, serviceType, paymentStatus, page, limit), `financial-report-response.dto.ts`
-- [ ] T126 [US5] Create `ReportsController` in `apps/api/src/admin/reports.controller.ts` with GET /admin/reports/financial and GET /admin/reports/financial/export endpoints
+- [x] T124 [US5] Create `ReportsService` in `apps/api/src/admin/reports.service.ts` with generateFinancialReport, exportAsCsv, exportAsPdf methods using Prisma aggregations
+- [x] T125 [US5] Create report DTOs in `apps/api/src/admin/dto/` — `financial-report-query.dto.ts` (from, to, serviceType, paymentStatus, page, limit), `financial-report-response.dto.ts`
+- [x] T126 [US5] Create `ReportsController` in `apps/api/src/admin/reports.controller.ts` with GET /admin/reports/financial and GET /admin/reports/financial/export endpoints
 - [ ] T127 [US5] Create `useReports` React Query hook in `apps/dashboard/src/hooks/use-reports.ts` (getFinancialReport, exportReport)
 - [ ] T128 [US5] Create `ReportChart` component in `apps/dashboard/src/components/reports/report-chart.tsx` — client component with revenue breakdown visualization (bar/pie chart)
 - [ ] T129 [US5] Create `ExportButton` component in `apps/dashboard/src/components/reports/export-button.tsx` — client component with CSV/PDF format selector and download trigger
