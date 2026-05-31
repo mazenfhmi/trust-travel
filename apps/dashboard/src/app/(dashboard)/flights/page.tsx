@@ -1,18 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useBookings } from '../../hooks/use-bookings';
-import { BookingTable } from '../../components/bookings/booking-table';
-import { SearchInput } from '../../components/shared/search-input';
+import { useBookings } from '@/hooks/use-bookings';
+import { BookingTable } from '@/components/bookings/booking-table';
+import { SearchInput } from '@/components/shared/search-input';
 import { useRouter } from 'next/navigation';
-import { CancelDialog } from '../../components/bookings/cancel-dialog';
+import { CancelDialog } from '@/components/bookings/cancel-dialog';
 
-export default function HotelsPage() {
+export default function FlightsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [cancelId, setCancelId] = useState<string | null>(null);
   
-  const { data, isLoading, error, cancelBooking } = useBookings('hotels', page, 20);
+  const { data, isLoading, error, cancelBooking } = useBookings('flights', page, 20);
   const router = useRouter();
 
   if (error) throw error;
@@ -33,7 +33,7 @@ export default function HotelsPage() {
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Hotel Bookings</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Flight Bookings</h2>
       </div>
       
       <div className="flex items-center justify-between">
@@ -45,7 +45,7 @@ export default function HotelsPage() {
       ) : (
         <BookingTable 
           bookings={filteredBookings} 
-          onView={(id) => router.push(`/hotels/${id}`)}
+          onView={(id) => router.push(`/flights/${id}`)}
           onCancel={(id) => setCancelId(id)}
         />
       )}

@@ -1,4 +1,5 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+import { getAuthToken } from './auth';
 
 export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers || {});
@@ -12,7 +13,18 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
     headers.set('Content-Type', 'application/json');
   }
 
+  // Automatically attach token
+  try {
+    const token = await getAuthToken();
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+  } catch (e) {
+    // Ignore if not available in current context
+  }
+
   const response = await fetch(`${API_URL}${endpoint}`, {
+    cache: 'no-store', // Prevent Next.js from caching 404s or stale admin data
     ...options,
     headers,
   });
@@ -33,5 +45,21 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
     return {} as T;
   }
 
-  return response.json();
+  const json = await response.json();
+  
+  // Unwrap 'data' if the API uses TransformInterceptor
+  if (json && 'data' in json && Object.keys(json).length === 1) {
+    return json.data;
+  }
+  
+  // Also handle paginated responses that might have data and meta
+  if (json && 'data' in json && 'meta' in json) {
+    return json; // Keep meta if it exists
+  }
+  
+  if (json && 'data' in json) {
+    return json.data;
+  }
+
+  return json;
 }

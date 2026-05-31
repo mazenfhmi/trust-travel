@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useBookingDetail } from '../../../hooks/use-bookings';
-import { StatusBadge } from '../../../components/shared/status-badge';
-import { PaymentReview } from '../../../components/bookings/payment-review';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { useBookingDetail } from '@/hooks/use-bookings';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { PaymentReview } from '@/components/bookings/payment-review';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useParams, useRouter } from 'next/navigation';
-import { Button } from '../../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
 export default function FlightBookingDetail() {

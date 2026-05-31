@@ -24,37 +24,37 @@ const routes = [
   {
     label: 'Dashboard',
     icon: LayoutDashboard,
-    href: '/dashboard',
+    href: '/',
     color: 'text-sky-500',
   },
   {
     label: 'Flights',
     icon: Plane,
-    href: '/dashboard/flights',
+    href: '/flights',
     color: 'text-violet-500',
   },
   {
     label: 'Hotels',
     icon: Building,
-    href: '/dashboard/hotels',
+    href: '/hotels',
     color: 'text-pink-700',
   },
   {
     label: 'Visas',
     icon: FileText,
-    href: '/dashboard/visas',
+    href: '/visas',
     color: 'text-orange-700',
   },
   {
     label: 'Reports',
     icon: BarChart,
-    href: '/dashboard/reports',
+    href: '/reports',
     color: 'text-emerald-500',
   },
   {
     label: 'Settings',
     icon: Settings,
-    href: '/dashboard/settings',
+    href: '/settings',
     color: 'text-gray-500',
   },
 ];
@@ -106,7 +106,7 @@ export function Sidebar() {
       <div className="px-3 py-2 flex-1">
         <div className="flex items-center justify-between mb-14 px-3">
           {!collapsed && (
-            <Link href="/dashboard" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <h1 className="text-2xl font-bold text-white tracking-tight">
                 Trust Travel
               </h1>

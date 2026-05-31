@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useVisaDetail } from '../../../hooks/use-visas';
-import { DocumentViewer } from '../../../components/visas/document-viewer';
-import { ReviewActionPanel } from '../../../components/visas/review-action-panel';
-import { StatusBadge } from '../../../components/shared/status-badge';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Button } from '../../../components/ui/button';
+import { useVisaDetail } from '@/hooks/use-visas';
+import { DocumentViewer } from '@/components/visas/document-viewer';
+import { ReviewActionPanel } from '@/components/visas/review-action-panel';
+import { StatusBadge } from '@/components/shared/status-badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 

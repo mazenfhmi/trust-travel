@@ -49,12 +49,12 @@ export class FlightsController {
     return this.flightsService.bookFlight(user.id, dto);
   }
 
-  @Get()
+  @Get('bookings/all')
   listBookings(@CurrentUser() user: any, @Query() query: PaginationQueryDto) {
     return this.flightsService.listBookings(user.id, user.role, query);
   }
 
-  @Get(':id')
+  @Get('bookings/:id')
   getBooking(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: any,
@@ -62,7 +62,7 @@ export class FlightsController {
     return this.flightsService.getBooking(id, user.id, user.role);
   }
 
-  @Patch(':id/cancel')
+  @Patch('bookings/:id/cancel')
   cancelBooking(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: any,

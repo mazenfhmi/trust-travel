@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useVisas } from '../../hooks/use-visas';
-import { VisaQueue } from '../../components/visas/visa-queue';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { useVisas } from '@/hooks/use-visas';
+import { VisaQueue } from '@/components/visas/visa-queue';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function VisasPage() {
   const [page, setPage] = useState(1);

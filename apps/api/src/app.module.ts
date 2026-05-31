@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { APP_PIPE, APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule } from '@nestjs/bullmq';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -19,6 +21,17 @@ import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        connection: {
+          host: new URL(configService.get<string>('REDIS_URL', 'redis://localhost:6379')).hostname,
+          port: parseInt(new URL(configService.get<string>('REDIS_URL', 'redis://localhost:6379')).port || '6379'),
+        },
+      }),
+    }),
     ThrottlerModule.forRoot([{
       ttl: 60000,
       limit: 10,

@@ -1,11 +1,10 @@
 import React from 'react';
-import { SummaryCard } from '../components/dashboard/summary-card';
+import { SummaryCard } from '@/components/dashboard/summary-card';
 import { Plane, Hotel, FileText, DollarSign } from 'lucide-react';
-import { cookies } from 'next/headers';
+import { getAuthToken } from '@/lib/auth';
 
 async function getDashboardSummary() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  const token = await getAuthToken();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/dashboard/summary`, {
     headers: {
@@ -15,10 +14,13 @@ async function getDashboardSummary() {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch dashboard summary');
+    const errorText = await res.text();
+    console.error(`Dashboard fetch failed: ${res.status} ${res.statusText}`, errorText);
+    throw new Error(`Failed to fetch dashboard summary: ${res.status}`);
   }
 
-  return res.json();
+  const json = await res.json();
+  return json.data;
 }
 
 export default async function DashboardHome() {

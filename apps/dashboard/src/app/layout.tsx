@@ -30,8 +30,8 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={cn("font-sans", geist.variable)}>
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang={locale} className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <SocketProvider>

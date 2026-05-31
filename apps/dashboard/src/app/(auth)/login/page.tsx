@@ -42,7 +42,7 @@ export default function LoginPage() {
       });
 
       await setAuthCookies(response.accessToken, response.user);
-      router.push('/dashboard');
+      router.push('/');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
