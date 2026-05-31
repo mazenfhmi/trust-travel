@@ -1,13 +1,13 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 1.0.0 → 1.1.0
-  Bump rationale: MINOR — Added new principle for Payment Processing constraints.
+  Version change: 1.1.0 → 1.2.0
+  Bump rationale: MINOR — Added new principle for Comprehensive Administration & Scalability.
 
   Modified principles: None
 
   Added sections:
-    - Core Principles (VIII. Payment Processing)
+    - Core Principles (IX. Comprehensive Administration & Scalability)
 
   Removed sections: None
 
@@ -16,7 +16,7 @@
     - .specify/templates/spec-template.md        ✅ reviewed
     - .specify/templates/tasks-template.md       ✅ reviewed
 
-  Follow-up TODOs: Implement Bank Transfer payment method and manual confirmation flow in API and dashboard.
+  Follow-up TODOs: Ensure admin and control panel tasks strictly follow the new comprehensive control and scalability guidelines.
 -->
 
 # Trust Travel Constitution
@@ -153,6 +153,13 @@ Currently, the only supported payment method is Bank Transfer.
 - All payments MUST be manually reviewed and confirmed from the Control Panel.
 - Any other automated gateway (e.g. Moyasar) MUST be disabled or removed until further notice.
 
+### IX. Comprehensive Administration & Scalability (NON-NEGOTIABLE)
+
+The system MUST be designed as a large-scale enterprise platform with comprehensive administrative control.
+- The control panel MUST support full CRUD operations over all core entities: Users, Roles, Orders (Bookings), Services (Flights, Hotels, Visas), and Departments.
+- Scalability patterns MUST be enforced: all data tables MUST implement server-side filtering, sorting, and pagination.
+- System activity and critical mutations MUST be securely logged to provide full auditability and accountability for administrative actions.
+
 ## Technology Stack & Constraints
 
 | Layer           | Technology                                  |
@@ -214,4 +221,4 @@ this document and any other guideline, this document prevails.
 - **Runtime Guidance**: See `AGENTS.md` for agent-specific development
   guidance and Spec Kit workflow commands.
 
-**Version**: 1.1.0 | **Ratified**: 2026-05-30 | **Last Amended**: 2026-05-30
+**Version**: 1.2.0 | **Ratified**: 2026-05-30 | **Last Amended**: 2026-05-30

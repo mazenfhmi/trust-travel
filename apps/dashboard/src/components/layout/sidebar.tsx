@@ -11,6 +11,11 @@ import {
   BarChart,
   Settings,
   Menu,
+  Users,
+  BookOpen,
+  Server,
+  Shield,
+  Activity,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -54,6 +59,39 @@ const routes = [
   },
 ];
 
+const adminRoutes = [
+  {
+    label: 'Admin Users',
+    icon: Users,
+    href: '/admin/users',
+    color: 'text-blue-500',
+  },
+  {
+    label: 'All Bookings',
+    icon: BookOpen,
+    href: '/admin/bookings',
+    color: 'text-indigo-500',
+  },
+  {
+    label: 'Services',
+    icon: Server,
+    href: '/admin/services',
+    color: 'text-teal-500',
+  },
+  {
+    label: 'Roles & Depts',
+    icon: Shield,
+    href: '/admin/roles',
+    color: 'text-amber-500',
+  },
+  {
+    label: 'Audit Logs',
+    icon: Activity,
+    href: '/admin/audit-logs',
+    color: 'text-red-500',
+  },
+];
+
 export function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -85,6 +123,29 @@ export function Sidebar() {
         </div>
         <div className="space-y-1">
           {routes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                'text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition',
+                pathname === route.href
+                  ? 'text-white bg-white/10'
+                  : 'text-zinc-400',
+                collapsed && 'justify-center'
+              )}
+            >
+              <div className="flex items-center flex-1">
+                <route.icon className={cn('h-5 w-5', route.color)} />
+                {!collapsed && <span className="ml-3">{route.label}</span>}
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="space-y-1 mt-6">
+          <p className={cn("text-xs uppercase text-zinc-500 font-semibold mb-2 px-3", collapsed && "hidden")}>
+            Admin
+          </p>
+          {adminRoutes.map((route) => (
             <Link
               key={route.href}
               href={route.href}

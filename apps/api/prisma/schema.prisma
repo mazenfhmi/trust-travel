@@ -114,6 +114,7 @@ model User {
   reviewedVisas   VisaApplication[] @relation("Reviewer")
   notifications   Notification[]
   reviews         Review[]
+  auditLogs       AuditLog[]
 
   @@index([role])
 }
@@ -358,4 +359,19 @@ model Notification {
   @@index([userId, isRead])
   @@index([type])
   @@index([createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String
+  details   Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([userId])
 }

@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Label } from '../../components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { useTranslations } from 'next-intl';
 
 export default function SettingsPage() {
@@ -37,16 +35,16 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="language">Language</Label>
-              <Select defaultValue="en" onValueChange={handleLanguageChange}>
-                <SelectTrigger id="language">
-                  <SelectValue placeholder="Select Language" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="ar">العربية (Arabic)</SelectItem>
-                </SelectContent>
-              </Select>
+              <label htmlFor="language" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Language</label>
+              <select 
+                id="language"
+                defaultValue="en" 
+                onChange={(e) => handleLanguageChange(e.target.value)}
+                className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+              >
+                <option value="en">English</option>
+                <option value="ar">العربية (Arabic)</option>
+              </select>
             </div>
           </CardContent>
         </Card>
@@ -59,7 +57,7 @@ export default function SettingsPage() {
           <CardContent>
             <form onSubmit={handlePasswordChange} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="current-password">Current Password</Label>
+                <label htmlFor="current-password" className="text-sm font-medium leading-none">Current Password</label>
                 <Input 
                   id="current-password" 
                   type="password" 
@@ -68,7 +66,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="new-password">New Password</Label>
+                <label htmlFor="new-password" className="text-sm font-medium leading-none">New Password</label>
                 <Input 
                   id="new-password" 
                   type="password" 
@@ -77,7 +75,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm New Password</Label>
+                <label htmlFor="confirm-password" className="text-sm font-medium leading-none">Confirm New Password</label>
                 <Input 
                   id="confirm-password" 
                   type="password" 
